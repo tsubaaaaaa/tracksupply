@@ -1,0 +1,39 @@
+<h1>個体情報の登録</h1>
+
+<%= form_with model: @individual, url: individuals_path do |f| %>
+  <div>
+    <%= f.label :identification_id, "識別番号" %>
+    <%= f.text_field :identification_id %>
+  </div>
+
+  <div>
+    <%= f.label :user_id, "捕獲者" %>
+    <%= f.text_field :user_id, 
+    value: current_user.id, readonly: true %>
+  </div>
+
+  <div>
+    <%= f.label :hunt_date, "捕獲日" %>
+    <%= f.date_field :hunt_date,
+    value: Date.today %>
+  </div>
+
+  <div>
+    <%= f.label :origin, "捕獲地" %>
+    <%= f.text_field :origin %>
+  </div>
+
+  <div>
+    <%= f.label :species, "動物の種類" %>
+    <%= f.text_field :species %>
+  </div>
+
+  <div>
+    <%= f.label :capture_method, "捕獲方法" %>
+    <%= f.text_field :capture_method %>
+  </div>
+
+  <div>
+    <%= f.submit "登録" %>
+  </div>
+<% end %>

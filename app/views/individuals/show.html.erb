@@ -1,0 +1,53 @@
+
+
+
+<div class="detail-item">
+  <strong>識別番号：</strong>
+  <%= @individual.identification_id %>
+</div>
+
+<div class="detail-item">
+  <strong>捕獲者（ユーザーID）：</strong>
+  <%= @individual.user_id %>
+</div>
+
+<div class="detail-item">
+  <strong>捕獲日：</strong>
+  <%= @individual.hunt_date.strftime("%Y-%m-%d") if @individual.hunt_date %>
+</div>
+
+<div class="detail-item">
+  <strong>捕獲地：</strong>
+  <%= @individual.origin %>
+</div>
+
+<div class="detail-item">
+  <strong>動物の種類：</strong>
+  <%= @individual.species %>
+</div>
+
+<div class="detail-item">
+  <strong>捕獲方法：</strong>
+  <%= @individual.method %>
+</div>
+
+<%= link_to '一覧に戻る', individuals_path, class: 'back-link' %>
+
+<style>
+  .detail-item {
+    margin-bottom: 1em;
+    padding: 1em;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f7f7f7;
+  }
+  .back-link {
+    display: inline-block;
+    margin-top: 2em;
+    text-decoration: none;
+    color: #007bff;
+  }
+  .back-link:hover {
+    text-decoration: underline;
+  }
+</style>

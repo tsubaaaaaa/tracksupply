@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  identification_id: MyString
+  hunter: MyString
+  hunt_date: 2025-04-21
+  origin: MyString
+  species: MyString
+  method: MyString
+
+two:
+  identification_id: MyString
+  hunter: MyString
+  hunt_date: 2025-04-21
+  origin: MyString
+  species: MyString
+  method: MyString

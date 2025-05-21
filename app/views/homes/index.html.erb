@@ -1,0 +1,40 @@
+
+<head>
+  <%= stylesheet_link_tag "homes/index"%>
+</head>
+
+<body>
+
+
+<main class="container">
+    <div class="card">
+      <div class="card-icon"><i class="fas fa-box"></i></div>
+      <div class="card-title">在庫一覧</div>
+      <div class="card-desc">現在の在庫状況を確認・管理します。</div>
+      <%= link_to '開く', individuals_path, class: 'open-btn' %>
+    </div>
+
+    <div class="card">
+      <div class="card-icon"><i class="fas fa-truck"></i></div>
+      <div class="card-title">入荷</div>
+      <div class="card-desc">商品の入荷登録を行います。</div>
+      <%= link_to '開く', individuals_register_path, class: 'open-btn' %>
+    </div>
+
+    <div class="card">
+      <div class="card-icon"><i class="fas fa-upload"></i></div>
+      <div class="card-title">出荷</div>
+      <div class="card-desc">出荷処理を実行します。</div>
+      <button class="open-btn">開く</button>
+    </div>
+
+    <div class="card">
+      <div class="card-icon"><i class="fas fa-chart-bar"></i></div>
+      <div class="card-title">売り上げ</div>
+      <div class="card-desc">売上データの確認と分析を行います。</div>
+      <button class="open-btn">開く</button>
+    </div>
+  </main>
+
+</body>
+</html>

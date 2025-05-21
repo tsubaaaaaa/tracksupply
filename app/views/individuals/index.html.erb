@@ -1,0 +1,37 @@
+<head>
+</head>
+
+<body>
+    <h2>個体一覧</h2>
+
+      <div class="container" >
+      
+        <%= @individuals.each do |i| %>
+            <div class="card" onclick="location.href='<%= individual_path(i.id) %>'"
+                style="cursor: pointer;">
+                <p class="card-line" style="font-size:1em;">
+                    <i class="fas fa-hashtag"></i>
+                    </span><%= i.identification_id %>
+                </p>
+
+                <p class="card-line" style="font-size:1em;">
+                    <i class="fas fa-user"></i>
+                    </span><%= i.origin %>
+                </p>
+
+                <p class="card-line" style="font-size:1em;">
+                    <i class="fas fa-paw"></i>
+                    </span><%= i.species %>
+                </p>
+
+                <p class="card-line" style="font-size:1em;">
+                    <i class="fas fa-calendar-alt"></i>
+                    </span><%= i.hunt_date %>
+                </p>
+            </div>
+        <% end %>
+    </li>
+
+
+
+</body>
