@@ -20,6 +20,8 @@ gem "devise"
 # pagenation
 gem "kaminari"
 
+gem "pg"
+
 # QR code
 gem "rqrcode"
 
