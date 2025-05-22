@@ -1,6 +1,6 @@
 
-/*homesコントローラーのindexアクションに対応するCSS
-@import "homes/index.css";*/
+/*homesコントローラーのindexアクションに対応するCSS*/
+@import "homes/index.css";
 
 /*individualsコントローラーのindexアクションに対応するCSS*/
 @import "individuals/index.css";

@@ -1,10 +1,5 @@
 <%# app/views/individuals/_form.html.erb (または register.html.erb) %>
 
-<head>
-  <%= stylesheet_link_tag "individuals/form"%>
-  <%= stylesheet_link_tag "errors"%>
-</head>
-
 <%# 親フォームの開始 %>
 <%= form_with model: @individual, url: individuals_path, local: true, html: { class: "main-form-container" }  do |f| %>
 
