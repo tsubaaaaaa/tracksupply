@@ -1,0 +1,68 @@
+/* モーダルウィンドウのスタイル */
+.modal-overlay {
+    position: fixed; /* 画面に固定 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明の黒背景 (オーバーレイ) */
+    display: flex; /* 内容を中央揃えにするため */
+    justify-content: center;
+    align-items: center;
+    z-index: 1050; /* 他の要素より手前に表示 */
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    padding: 25px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    min-width: 300px; /* モーダルの最小幅 */
+    max-width: 450px; /* モーダルの最大幅 (これで「小さく」を調整) */
+    width: 90%;      /* 画面幅が狭い場合はレスポンシブに */
+    position: relative; /* 閉じるボタンの配置基準 */
+    color: #333;
+  }
+  
+  .modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1em; /* 少し小さめに */
+    color: #c0392b; /* エラータイトルらしい色 */
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+  }
+  
+  .modal-content ul {
+    padding-left: 20px;
+    margin-bottom: 0;
+    font-size: 0.9em; /* エラーメッセージの文字を少し小さめに */
+  }
+  
+  .modal-content li {
+    margin-bottom: 8px;
+  }
+  
+  .close-modal-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2em; /* ×ボタンのサイズ */
+    font-weight: bold;
+    color: #999;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    padding: 0;
+    line-height: 1;
+  }
+  
+  .close-modal-button:hover {
+    color: #666;
+  }
+  
+  /* 元の #error_explanation のスタイルはモーダル用に調整されるので、
+     直接指定していた style 属性は削除しても良いでしょう */
+  #error_explanation {
+    /* color: red; 等のスタイルは .modal-content やその子要素のスタイルでカバー */
+  }

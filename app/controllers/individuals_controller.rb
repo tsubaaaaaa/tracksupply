@@ -11,17 +11,19 @@ class IndividualsController < ApplicationController
     @individual = Individual.find(params[:id])
   end
 
-  def register
+  def new
     @individual = Individual.new
+    @individual.inventories.build # 新しいインベントリを作成
   end
 
   def create
     @individual = Individual.new(individual_params)
     if @individual.save
-      redirect_to individuals_details_path, notice: '個体情報が登録されました。'
+      redirect_to individuals_path, notice: '個体情報が登録されました。'
 
     else
-      render :register
+      render :new, status: :unprocessable_entity
+
     end
   end
 
@@ -33,7 +35,16 @@ class IndividualsController < ApplicationController
       :hunt_date,
       :origin,
       :species,
-      :method
+      :method,
+      :age_in_months,
+      :weight,
+      :disassembling_date,
+      :processing_date,
+      :processing_facility,
+      :processor_name,
+      
+      inventories_attributes: [:id, :part, :weight, :_destroy]
+
     )
   end
 

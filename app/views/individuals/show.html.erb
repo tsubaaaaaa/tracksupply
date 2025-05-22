@@ -1,53 +1,96 @@
+<%# app/views/individuals/show.html.erb (または詳細表示用のビューファイル) %>
+<div class="content-split-wrapper">
+  <div class="content-split-left">
 
+    <header class="content-header">
+      <h1>個体情報詳細</h1> <%# タイトルを変更 %>
+    </header>
 
+    <div class="details-section"> <%# form-section から名称変更 (任意) %>
+      <%# --- 個体情報フィールド --- %>
+      <div class="detail-group"> <%# form-group から名称変更 (任意) %>
+        <div class="label-box">識別番号</div>
+        <div class="displayed-value"><%= @individual.identification_id %></div>
+      </div>
 
-<div class="detail-item">
-  <strong>識別番号：</strong>
-  <%= @individual.identification_id %>
-</div>
+      <div class="detail-group">
+        <div class="label-box">捕獲者</div>
+        <%# Userモデルにname属性などがある場合 %>
+        <div class="displayed-value"><%= @individual.user.try(:name) || @individual.user_id %></div>
+      </div>
 
-<div class="detail-item">
-  <strong>捕獲者（ユーザーID）：</strong>
-  <%= @individual.user_id %>
-</div>
+      <div class="detail-group">
+        <div class="label-box">捕獲日</div>
+        <div class="displayed-value"><%= @individual.hunt_date ? @individual.hunt_date.strftime("%Y年%m月%d日") : "未登録" %></div>
+      </div>
 
-<div class="detail-item">
-  <strong>捕獲日：</strong>
-  <%= @individual.hunt_date.strftime("%Y-%m-%d") if @individual.hunt_date %>
-</div>
+      <div class="detail-group">
+        <div class="label-box">捕獲地</div>
+        <div class="displayed-value"><%= @individual.origin %></div>
+      </div>
 
-<div class="detail-item">
-  <strong>捕獲地：</strong>
-  <%= @individual.origin %>
-</div>
+      <div class="detail-group">
+        <div class="label-box">種類</div>
+        <div class="displayed-value"><%= @individual.species %></div>
+      </div>
 
-<div class="detail-item">
-  <strong>動物の種類：</strong>
-  <%= @individual.species %>
-</div>
+      <div class="detail-group">
+        <div class="label-box">捕獲方法</div>
+        <div class="displayed-value"><%= @individual.method %></div>
+      </div>
 
-<div class="detail-item">
-  <strong>捕獲方法：</strong>
-  <%= @individual.method %>
-</div>
+      <div class="detail-group">
+        <div class="label-box">月齢 (ヶ月)</div>
+        <div class="displayed-value"><%= @individual.age_in_months %></div>
+      </div>
 
-<%= link_to '一覧に戻る', individuals_path, class: 'back-link' %>
+      <div class="detail-group">
+        <div class="label-box">重量 (kg)</div>
+        <div class="displayed-value"><%= @individual.weight %></div>
+      </div>
 
-<style>
-  .detail-item {
-    margin-bottom: 1em;
-    padding: 1em;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #f7f7f7;
-  }
-  .back-link {
-    display: inline-block;
-    margin-top: 2em;
-    text-decoration: none;
-    color: #007bff;
-  }
-  .back-link:hover {
-    text-decoration: underline;
-  }
-</style>
+      <div class="detail-group">
+        <div class="label-box">解体日</div>
+        <div class="displayed-value"><%= @individual.disassembling_date ? @individual.disassembling_date.strftime("%Y年%m月%d日") : "未登録" %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">加工日</div>
+        <div class="displayed-value"><%= @individual.processing_date ? @individual.processing_date.strftime("%Y年%m月%d日") : "未登録" %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">加工施設</div>
+        <div class="displayed-value"><%= @individual.processing_facility %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">加工者</div>
+        <div class="displayed-value"><%= @individual.processor_name %></div>
+      </div>
+    </div>
+  </div><div class="content-split-right">
+    <header class="content-header">
+      <h1>部位情報</h1>
+    </header>
+
+    <div id="inventories-display-container"> <%# IDを変更 (任意) %>
+      <% if @individual.inventories.any? %>
+        <% @individual.inventories.each do |inventory| %>
+          <div class="details-section"> <%# form-stock-section から名称変更 (任意) %>
+            <div class="detail-group">
+              <div class="label-box">部位</div>
+              <div class="displayed-value"><%= inventory.part %></div>
+            </div>
+            <div class="detail-group">
+              <div class="label-box">重量 (kg)</div>
+              <div class="displayed-value"><%= inventory.weight %></div>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p>登録されている部位情報はありません。</p>
+      <% end %>
+    </div>
+    <%# 「部位・重量を追加」ボタンや「登録」ボタンは詳細画面には不要なので削除 %>
+  </div></div><%# フォーム用のJavaScriptは詳細画面には不要なので削除します %>

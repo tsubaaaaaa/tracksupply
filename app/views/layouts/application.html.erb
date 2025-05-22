@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <title>Tracksupply</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -12,25 +13,26 @@
     <!-- Font Awesome for icons (optional) -->
     <script src="https://kit.fontawesome.com/5d2fcc1ba0.js" crossorigin="anonymous"></script>
 
+
   </head>
 
-  
-
-  <header>
-
-    <%= link_to 'Tracksupply', root_path, class: 'header-logo' %>
-
-    <button class="mypage-btn">
-      <%= link_to 'My Page',class: 'mypage-btn' %>
-    </button>
-
-  </header>
-
   <body>
+    <header>
+       
+    </header>
 
+    <div class="app-container">
+      <%= render 'layouts/sidebar' %>
 
-    <%= yield %>
+      <main class='main-content'>
+            <%= yield %>
 
+      </main>
+    
+    </div>
+
+      <!--footer class="footer">
+      </footer-->
 
   </body>
 </html>

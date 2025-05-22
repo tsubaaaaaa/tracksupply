@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_20_173113) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_22_104926) do
   create_table "group_users", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "group_id", null: false
@@ -38,6 +38,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_20_173113) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
+    t.integer "age_in_months"
+    t.decimal "weight", precision: 5, scale: 2
+    t.date "disassembling_date"
+    t.date "processing_date"
+    t.string "processing_facility"
+    t.string "processor_name"
     t.index ["user_id"], name: "index_individuals_on_user_id"
   end
 
@@ -47,8 +53,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_20_173113) do
     t.string "status", default: "stocked", null: false
     t.boolean "available"
     t.integer "individual_id", null: false
-    t.integer "user_id", null: false
-    t.integer "group_id", null: false
+    t.integer "user_id"
+    t.integer "group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_inventories_on_group_id"

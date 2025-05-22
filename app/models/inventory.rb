@@ -1,5 +1,19 @@
 class Inventory < ApplicationRecord
   belongs_to :individual
   belongs_to :user
-  belongs_to :group
+  #belongs_to :group
+
+  validates :part, presence: true
+  validates :weight, presence: true, numericality: { greater_than_or_equal_to: 0 }
+
+  before_validation :set_user_from_individual, on: :create
+
+  private
+  def set_user_from_individual
+    if individual.present? && user_id.blank?
+      self.user_id = individual.user_id
+    end
+  end
+
+
 end

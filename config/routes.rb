@@ -17,10 +17,6 @@ Rails.application.routes.draw do
   resources :groups do
     resources :group_users, only: [:index, :create, :update, :destroy]
   end
-
-   #在庫入荷のルーティング
-   get 'individuals/register', to: 'individuals#register',
-    as: 'individuals_register'
     
   #個体情報のルーティング
   resources :individuals

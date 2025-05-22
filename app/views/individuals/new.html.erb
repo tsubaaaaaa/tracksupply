@@ -1,0 +1,197 @@
+<%# app/views/individuals/_form.html.erb (または register.html.erb) %>
+
+<%# 親フォームの開始 %>
+<%= form_with model: @individual, url: individuals_path, local: true, html: { class: "main-form-container" }  do |f| %>
+
+  <div class="content-split-wrapper">
+    <% if @individual.errors.any? %>
+      <div id="error-modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+          <button type="button" class="close-modal-button" aria-label="閉じる">&times;</button>
+          <%# 元のエラー表示部分をここに移動 %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@individual.errors.count, "個のエラー") %> が原因で保存できませんでした:</h2>
+            <ul>
+              <% @individual.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="content-split-left">
+      <header class="content-header">
+        <h1>個体情報の登録</h1>
+      </header>
+        <div class="form-section">
+          <%# --- 個体情報フィールド --- %>
+          <div class="form-group">
+            <div class="label-box">識別番号</div>
+            <%= f.text_field :identification_id, class: "form-input", placeholder: "例: ID123" %>
+          </div>
+          <div class="form-group">
+            <div class="label-box">捕獲者</div>
+            <%= f.text_field :user_id, value: current_user.id, readonly: true, class: "form-input" %>
+          </div>
+          <div class="form-group">
+            <div class="label-box">捕獲日</div>
+            <%= f.date_field :hunt_date, value: Date.today, class: "form-input" %>
+          </div>
+          <div class="form-group">
+            <div class="label-box">捕獲地</div>
+            <%= f.text_field :origin, class: "form-input", placeholder: "地域を入力してください" %>
+          </div>
+          <div class="form-group">
+            <div class="label-box">種類</div>
+            <%= f.text_field :species, class: "form-input", placeholder: "種類を入力してください" %>
+          </div>
+          <div class="form-group">
+            <div class="label-box">捕獲方法</div>
+            <%= f.text_field :method, class: "form-input", placeholder: "捕獲方法を入力してください" %>
+          </div>
+          <div class="form-group">
+            <div class="label-box">月齢 (ヶ月)</div> <%# ラベルに単位を追加 %>
+            <%= f.number_field :age_in_months, class: "form-input", placeholder: "例: 12" %> <%# number_field推奨 %>
+          </div>
+          <div class="form-group">
+            <div class="label-box">重量 (kg)</div> <%# ラベルに単位を追加 %>
+            <%= f.number_field :weight, class: "form-input", placeholder: "例: 50.5", step: "0.1" %> <%# number_field推奨 %>
+          </div>
+          <div class="form-group">
+            <div class="label-box">解体日</div>
+            <%= f.date_field :disassembling_date, class: "form-input" %> <%# disassembling_date %>
+          </div>
+          <div class="form-group">
+            <div class="label-box">加工日</div>
+            <%= f.date_field :processing_date, class: "form-input" %>
+          </div>
+          <div class="form-group">
+            <div class="label-box">加工施設</div>
+            <%= f.text_field :processing_facility, class: "form-input", placeholder: "例: ○○食肉加工センター" %>
+          </div>
+          <div class="form-group">
+            <div class="label-box">加工者</div>
+            <%= f.text_field :processor_name, class: "form-input", placeholder: "例: 山田太郎" %>
+          </div>
+        </div><%# form-section (個体情報) の終わり %>
+    </div>
+  
+    <div class="content-split-right">
+      <header class="content-header">
+        <h1>部位情報</h1>
+      </header>
+
+      <div class="content-split-right-innner">
+        <div id="inventories-container">
+          <%# fields_for を使ってネストされたinventoriesのフィールドを生成 %>
+          <%# 既存のレコードがある場合や、コントローラーで @individual.inventories.build した場合に表示される %>
+          <%= f.fields_for :inventories do |inventory_form| %>
+            <div class="form-stock-section nested-fields">
+              <div class="form-group">
+                <div class="label-box">部位</div>
+                <%= inventory_form.text_field :part, class: "form-input", placeholder: "例: ロース" %>
+              </div>
+              <div class="form-group">
+                <div class="label-box">重量 (kg)</div>
+                <%= inventory_form.number_field :weight, class: "form-input", placeholder: "例: 1.5", step: "0.1" %>
+              </div>
+              <%= inventory_form.hidden_field :_destroy %> <%# 既存レコードを削除するための隠しフィールド %>
+              <button type="button" class="remove-part-button btn-remove">この部位を削除</button> <%# CSSクラス追加推奨 %>
+              <hr>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="fixed-bottom-actions"> <%# 例えばこんなクラス名でラップ %>
+        <button type="button" id="add-inventory-button" class="btn-add">部位・重量を追加</button>
+      </div>
+      
+      </div><%# content-sprit-right-innner の終わり %>
+
+      
+    </div>
+  
+  
+    <div class="form-actions">
+      <%= f.submit "登録", class: "btn-submit" %> <%# この送信ボタンはフォーム全体なので、実際はwrapperの外 %>
+    </div>
+  </div>
+<% end %> <%# form_with の終わりをここに移動 %>
+
+
+<template id="inventory-fields-template">
+  <div class="form-stock-section nested-fields">
+    <div class="form-group">
+      <div class="label-box">部位</div>
+      <input type="text" name="individual[inventories_attributes][__INDEX__][part]" class="form-input" placeholder="例: モモ">
+    </div>
+    <div class="form-group">
+      <div class="label-box">重量 (kg)</div>
+      <input type="number" name="individual[inventories_attributes][__INDEX__][weight]" class="form-input" placeholder="例: 2.0" step="0.1">
+    </div>
+    <%# 新規追加時には _destroy は不要だが、削除ボタンでこの要素ごと消す %>
+    <button type="button" class="remove-part-button btn-remove">この部位を削除</button>
+    <hr>
+  </div>
+</template>
+
+<%# JavaScript (前回提示のものを流用・改良) %>
+<script>
+document.addEventListener('turbo:load', () => { // Turbo Drive を使っている場合は 'turbo:load' の方が良い場合がある
+  const addInventoryButton = document.getElementById('add-inventory-button');
+  const inventoriesContainer = document.getElementById('inventories-container');
+  const inventoryFieldsTemplate = document.getElementById('inventory-fields-template');
+
+  if (addInventoryButton && inventoriesContainer && inventoryFieldsTemplate) {
+    addInventoryButton.addEventListener('click', () => {
+        console.log('「部位・重量を追加」ボタンがクリックされました！'); // ★追加
+
+      const uniqueIndex = new Date().getTime(); // 新しいレコード用の一意なID
+      const newFieldsContent = inventoryFieldsTemplate.innerHTML.replace(/__INDEX__/g, uniqueIndex);
+      const newFieldsDiv = document.createElement('div');
+      // newFieldsDiv.classList.add('form-stock-section', 'nested-fields'); // テンプレート側でクラス指定してるので、innerHTMLをそのまま使うなら不要
+      newFieldsDiv.innerHTML = newFieldsContent;
+
+      // テンプレートから複製する場合、最初のdivが .nested-fields になるようにする
+      // inventoriesContainer.appendChild(newFieldsDiv.firstElementChild); // この方がより正確
+      // もしくはテンプレートのinnerHTMLを直接コンテナに追加し、その後でボタンのイベントリスナーを設定する
+      // 今回は newFieldsDiv をそのまま追加する形にする (テンプレートのラッパーdivは複製されないので、innerHTMLで取得した中身を新しいdivに入れる)
+
+      // templateタグを使う場合 (推奨)
+      const templateContent = inventoryFieldsTemplate.content.cloneNode(true);
+      templateContent.querySelectorAll('[name*="__INDEX__"]').forEach(input => {
+         input.name = input.name.replace(/__INDEX__/g, uniqueIndex);
+      });
+      templateContent.querySelectorAll('[id*="__INDEX__"]').forEach(element => { // idもユニークにする場合
+         element.id = element.id.replace(/__INDEX__/g, uniqueIndex);
+         if (element.tagName === 'LABEL') {
+           element.htmlFor = element.htmlFor.replace(/__INDEX__/g, uniqueIndex);
+         }
+      });
+      inventoriesContainer.appendChild(templateContent);
+    });
+  }
+
+  // 削除ボタンの処理 (イベント委任)
+  if (inventoriesContainer) {
+    inventoriesContainer.addEventListener('click', (event) => {
+      if (event.target.classList.contains('remove-part-button')) {
+        const fieldGroup = event.target.closest('.nested-fields');
+        if (fieldGroup) {
+          // 既存レコードの削除の場合、_destroyフィールドの値を "1" にする
+          const destroyField = fieldGroup.querySelector('input[type="hidden"][name*="_destroy"]');
+          if (destroyField) {
+            destroyField.value = '1';
+            fieldGroup.style.display = 'none'; // 画面上から隠す
+          } else {
+            // 新規追加された（まだIDがない）フィールドの場合はDOMから完全に削除
+            fieldGroup.remove();
+          }
+        }
+      }
+    });
+  }
+});
+</script>

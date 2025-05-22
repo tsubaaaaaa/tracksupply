@@ -5,33 +5,96 @@
 /*individualsコントローラーのindexアクションに対応するCSS*/
 @import "individuals/index.css";
 
-.header-logo {
-  width: 200px;
-  height: 30px;
-  color: inherit;
-  text-decoration: none;
-  font-size: larger;
+/*individualsコントローラーのshowアクションに対応するCSS*/
+@import "individuals/form.css";
+
+@import "errors.css"; /* エラーページのCSS */
+
+html {
+  box-sizing: border-box;
+  height: 100%; /* html要素の高さを100%に設定 */
+}
+*, *:before, *:after {
+  box-sizing: inherit; /* box-sizing を全要素に継承させる */
 }
 
 body {
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
-  }
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  background-color: #f0f2f5; /* 全体の背景色 */
+  color: #333;
+}
 
-  header {
+  .app-container {
+    flex-grow: 1;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: white;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    overflow:hidden;
+    flex-direction: column;
   }
 
-  header h1 {
+  .sidebar {
+    width: 220px; /* サイドバーの幅調整 */
+    top: 0;
+    position: fixed; /* サイドバーを固定 */
+    background-color: #ffffff; /* サイドバー背景色 */
+    padding: 20px;
+    border-right: 1px solid #d9d9d9; /* 区切り線 */
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* サイドバーの高さを画面全体に */
+    z-index: 1000; /* 他の要素より前面に表示 */
+  }
+
+  .sidebar .logo {
+    font-size: 1.6em; /* ロゴのサイズ */
+    font-weight: bold;
+    margin-bottom: 35px; /* ロゴ下のマージン */
+    color: #3a3a3a;
+    padding-left: 10px; /* 少しインデント */
+  }
+
+  .sidebar nav ul {
+    list-style: none;
+    padding: 0;
     margin: 0;
-    font-size: 1.5rem;
+  }
+
+  .sidebar nav li a {
+    display: block;
+    padding: 12px 15px; /* リンクのパディング */
+    text-decoration: none;
+    color: #595959; /* 通常のリンク色 */
+    border-radius: 6px; /* 角丸 */
+    margin-bottom: 8px; /* リンク間のマージン */
+    font-size: 0.95em;
+  }
+
+  .sidebar nav li a:hover {
+    background-color: #f0f0f0; /* ホバー時の背景色 */
+  }
+  .sidebar nav li a.active {
+    background-color: #e6f7ff; /* アクティブ時の背景色 */
+    color: #1890ff; /* アクティブ時の文字色 */
+    font-weight: 600; /* アクティブ時少し太く */
+  }
+
+  .main-content {
+    flex-grow: 1;
+    padding: 25px 35px; /* メインコンテンツのパディング調整 */
+    background-color: #ffffff; /* メインコンテンツの背景 */
+    margin-left: 220px;
+    overflow-y: hidden; /* 縦方向のスクロール */
+    height: 100vh; /* 高さを画面全体に */
+  }
+
+  .footer {
+    background-color: #fff; /* フッター背景色 */
+    padding: 5px 10px; /* フッターのパディング */
+    border-top: 1px solid #d9d9d9; /* フッター上の境界線 */
+    text-align: center; /* 中央寄せ */
+    font-size: 0.5em; /* フォントサイズ調整 */
+    color: #434343;
+    margin-top: -20px; /* フッター上のマージン */
   }
 
   .mypage-btn {

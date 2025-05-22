@@ -6,7 +6,6 @@ class CreateIndividuals < ActiveRecord::Migration[7.1]
       t.string :origin
       t.string :species
       t.string :method
-
       t.timestamps
 
       # Foreign key to the users table

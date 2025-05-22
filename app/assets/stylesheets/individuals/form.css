@@ -1,0 +1,164 @@
+
+  /* form_with に html: { class: "main-form-container" } を追加した場合のクラス */
+.main-form-container {
+    display: flex; /* ★ 中の .content-split-wrapper が高さを取れるように */
+    flex-direction: column;
+    flex-grow: 1; /* ★ .main-content の中で利用可能な高さを全て使う */
+    height: 100%;/* height: 100%; でも良い場合がある */
+    overflow: hidden; /* フォーム自体はスクロールさせない */
+  }
+  
+  .content-area {
+    padding: 0%;
+    margin: 0%;
+    background-color: #975b5b;
+    width: 100%;
+    height: 100%;
+  }
+
+
+  .content-split-wrapper {
+    display: flex; /* これがポイント！左右に並べるためにFlexboxを使うよ */
+    gap: 0px; /* 左右のパネルの間の隙間 */ */
+    width: 100%; /* 親の幅をフルで使う */
+    height: 100%; /* 不要になった */
+  }
+
+  .content-split-left,
+  .content-split-right {
+    flex: 1 1 0%; /* 左側のパネルは自動で広がる */
+    min-width: 100px; /* 最小幅を300pxに設定 */
+    background-color: #f8f9fa; /* 背景色を薄いグレーに */
+    padding: 10px; /* 内側の余白 */
+    margin: 10px;
+    flex-direction: column; /* 縦に並べる */ 
+    overflow: auto;
+  }
+
+  .content-split-right .content-split-right-inner {
+    flex-grow: 1; /* ★ヘッダーとフッターを除いた残りのスペースを全て使う */
+    overflow-y: auto; /* ★この要素の内容が多ければ、ここでスクロールが発生する */
+    padding: 15px; /* スクロールするコンテンツエリアの内側の余白 */
+  }
+  
+  
+  .content-header {
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
+    width: 60%;
+  }
+  
+  .content-header h1 {
+    font-size: 1.5rem;
+    color: #343a40;
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .form-section,
+  .form-stock-section,
+  .details-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2列のグリッドレイアウトを作成 */
+    gap: 10px; /* 各要素の間に20pxの隙間を作成 */
+  }
+  
+  .form-group,
+  .detail-group {
+    margin: 20px;
+    position: relative;
+  }
+  
+  /* 浮遊するラベルを持つform-groupに特定のパディングを設定 */
+  .form-group.floating-label-group .form-input {
+    padding-top: 25px;
+    padding-bottom: 12px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  /* ラベルボックスのスタイル */
+  .label-box {
+    position: absolute;
+    top: -12px;
+    left: 10px;
+    background-color: #fcfcfc;
+    color: #6c757d;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 3px 6px;
+    border-radius: 5px;
+    z-index: 10;
+    transition: all 0.2s ease-out;
+    pointer-events: none;
+  }
+
+  /*フォーム*/
+.form-input,
+.displayed-value {
+    width: 100%;
+    height: 50px;
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #6c757d;
+    background-color: #fcfcfc;
+}
+
+  /* ボタン類をラップするコンテナ（もしinnerの外に出すなら） */
+  .content-split-right .bottom-actions-container {
+    padding: 15px;
+    background-color: #f8f9fa; /* content-split-right と同じ背景 */
+    flex-shrink: 0; /* 縮まない */
+    border-top: 1px solid #eee; /* 区切り線 */
+  }
+  .content-split-right .bottom-actions-container .form-actions {
+      text-align: right; /* 送信ボタンを右寄せなど */
+  }
+  
+  /*submitボタンのスタイル*/
+  .form-actions {
+    position: fixed; /* ビューポートに対して位置を固定 */
+    bottom: 30px;    /* 画面の下から30pxの位置 */
+    right: 30px;     /* 画面の右から30pxの位置 */
+    z-index: 1000;   /* 他の要素より手前に表示するための指定 (数値が大きいほど手前) */
+  }
+
+  .btn-submit{
+    padding: 12px 25px;         /* ボタンの余白 (大きめにして押しやすく) */
+    font-size: 1.1em;           /* 文字サイズ */
+    background-color: #007bff;  /* ボタンの色 (例: プライマリーカラー) */
+    color: white;               /* 文字色 */
+    border: none;               /* 枠線なし */
+    border-radius: 50px;        /* 角を丸くして円形に近いボタンに (お好みで) */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* ちょっとリッチな影 */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease; /* ホバー時のアニメーション */
+  }
+
+  .btn-submit:hover {
+    background-color: #0056b3; /* ホバー時の色 */
+    transform: translateY(-2px); /* 少し浮き上がるような効果 */
+  }
+  
+
+  
+  .primary-button {
+    padding: 12px 30px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+  }
+  
+  .primary-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
+  }
