@@ -11,7 +11,10 @@ class CreateGroupUsers < ActiveRecord::Migration[7.1]
       end
     end
 
-    add_index :group_users, [:user_id, :group_id], unique: true
+    index_name = "index_group_users_on_user_id_and_group_id" # エラーメッセージから正確な名前を取得
+    unless index_exists?(:group_users, [:user_id, :group_id], name: index_name, unique: true)
+      add_index :group_users, [:user_id, :group_id], name: index_name, unique: true
+    end
 
   end
 end
