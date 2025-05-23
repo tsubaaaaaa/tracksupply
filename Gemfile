@@ -17,9 +17,6 @@ gem "puma", ">= 5.0"
 # User 
 gem "devise"
 
-# pagenation
-gem "kaminari"
-
 gem "pg"
 
 #QRコード生成
