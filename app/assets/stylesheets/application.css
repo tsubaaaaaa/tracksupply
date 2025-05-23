@@ -1,16 +1,13 @@
 
-
-/*homesコントローラーのindexアクションに対応するCSS*/
-@import "homes/index";
-
-/*individualsコントローラーのindexアクションに対応するCSS*/
-@import "individuals/index";
-
-/*individualsコントローラーのshowアクションに対応するCSS*/
-@import "individuals/form";
-
-@import "errors"; /* エラーページのCSS */
-
+/* app/assets/stylesheets/application.css */
+/*
+ *= require_self
+ *= require homes/index
+ *= require individuals/index
+ *= require individuals/form
+ *= require errors
+ */
+ 
 html {
   box-sizing: border-box;
   height: 100%; /* html要素の高さを100%に設定 */
