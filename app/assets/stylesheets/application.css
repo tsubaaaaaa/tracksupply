@@ -1,14 +1,14 @@
 
 /*homesコントローラーのindexアクションに対応するCSS*/
-@import "homes/index";
+@import "homes/index.css";
 
 /*individualsコントローラーのindexアクションに対応するCSS*/
-@import "individuals/index";
+@import "individuals/index.css";
 
 /*individualsコントローラーのshowアクションに対応するCSS*/
-@import "individuals/form";
+@import "individuals/form.css";
 
-@import "errors"; /* エラーページのCSS */
+@import "errors.css"; /* エラーページのCSS */
 
 html {
   box-sizing: border-box;
