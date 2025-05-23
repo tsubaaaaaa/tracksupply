@@ -74,7 +74,7 @@
   .inventories-display-container
   {
     grid-template-columns: repeat(2, 1fr); /* 2列のグリッドレイアウトを作成 */
-    background-color:aqua ;
+    background-color: #f8f9fa; /* 背景色を薄いグレーに */
     gap: 10px; /* 各要素の間に10pxの隙間を作成 */
     align-items: center; /* 縦方向の中央揃え */
     height: 70%; /* 高さを100%に設定 */
@@ -236,7 +236,7 @@
 
   .code-button-container {
     display: flex;
-    background-color: red;
+    background-color: #f8f9fa; /* 背景色を薄いグレーに */
     height: 30%;
     justify-content: left; /* 中央寄せ */
     padding-left: 10%;
