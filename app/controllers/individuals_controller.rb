@@ -1,7 +1,7 @@
 class IndividualsController < ApplicationController
 
   def index
-    @individuals = Individual.all
+    @individuals = Individual.where(user_id: current_user.id)
     #@individuals = Individual.includes(:inventories)
                               #.where(user: current_user)
                              # .order(updated_at: :desc)

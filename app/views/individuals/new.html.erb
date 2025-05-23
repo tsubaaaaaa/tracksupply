@@ -98,15 +98,19 @@
                 <%= inventory_form.number_field :weight, class: "form-input", placeholder: "例: 1.5", step: "0.1" %>
               </div>
               <%= inventory_form.hidden_field :_destroy %> <%# 既存レコードを削除するための隠しフィールド %>
-              <button type="button" class="remove-part-button btn-remove">この部位を削除</button> <%# CSSクラス追加推奨 %>
-              <hr>
+              <button type="button" class="remove-part-button btn-remove">
+                <i class="fa-solid fa-trash"></i>
+              </button>           
+             <hr>
             </div>
           <% end %>
         </div>
 
         <div class="fixed-bottom-actions"> <%# 例えばこんなクラス名でラップ %>
-        <button type="button" id="add-inventory-button" class="btn-add">部位・重量を追加</button>
-      </div>
+          <button type="button" id="add-inventory-button" class="btn-add">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </div>
       
       </div><%# content-sprit-right-innner の終わり %>
 
@@ -132,7 +136,9 @@
       <input type="number" name="individual[inventories_attributes][__INDEX__][weight]" class="form-input" placeholder="例: 2.0" step="0.1">
     </div>
     <%# 新規追加時には _destroy は不要だが、削除ボタンでこの要素ごと消す %>
-    <button type="button" class="remove-part-button btn-remove">この部位を削除</button>
+    <button type="button" class="remove-part-button btn-remove">
+    <i class="fa-solid fa-trash"></i>
+    </button>
     <hr>
   </div>
 </template>

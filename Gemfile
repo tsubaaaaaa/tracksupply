@@ -22,8 +22,16 @@ gem "kaminari"
 
 gem "pg"
 
-# QR code
+#QRコード生成
 gem "rqrcode"
+gem "rqrcode_png"
+gem "chunky_png"
+
+#ページネーション
+gem "kaminari"
+
+gem 'fiddle'
+
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"

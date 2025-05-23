@@ -3,8 +3,13 @@ class Inventory < ApplicationRecord
   belongs_to :user
   #belongs_to :group
 
-  validates :part, presence: true
-  validates :weight, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :part, presence: false
+  validates :weight, 
+            presence: false, 
+            numericality: { 
+              greater_than_or_equal_to: 0,
+              allow_blank: true
+            }
 
   before_validation :set_user_from_individual, on: :create
 

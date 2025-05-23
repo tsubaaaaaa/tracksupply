@@ -70,27 +70,37 @@
       </div>
     </div>
   </div><div class="content-split-right">
-    <header class="content-header">
-      <h1>部位情報</h1>
-    </header>
+    <div class="inventories-display-container"> <%# IDを変更 (任意) %>
+      <header class="content-header">
+        <h1>部位情報</h1>
+      </header>
 
-    <div id="inventories-display-container"> <%# IDを変更 (任意) %>
-      <% if @individual.inventories.any? %>
-        <% @individual.inventories.each do |inventory| %>
-          <div class="details-section"> <%# form-stock-section から名称変更 (任意) %>
-            <div class="detail-group">
-              <div class="label-box">部位</div>
-              <div class="displayed-value"><%= inventory.part %></div>
+      <div id="inventories-display-container"> <%# IDを変更 (任意) %>
+        <% if @individual.inventories.any? %>
+          <% @individual.inventories.each do |inventory| %>
+            <div class="details-section"> <%# form-stock-section から名称変更 (任意) %>
+              <div class="detail-group">
+                <div class="label-box">部位</div>
+                <div class="displayed-value"><%= inventory.part %></div>
+              </div>
+              <div class="detail-group">
+                <div class="label-box">重量 (kg)</div>
+                <div class="displayed-value"><%= inventory.weight %></div>
+              </div>
             </div>
-            <div class="detail-group">
-              <div class="label-box">重量 (kg)</div>
-              <div class="displayed-value"><%= inventory.weight %></div>
-            </div>
-          </div>
+          <% end %>
+        <% else %>
+          <p>登録されている部位情報はありません。</p>
         <% end %>
-      <% else %>
-        <p>登録されている部位情報はありません。</p>
-      <% end %>
+      </div>
     </div>
+
+    <div class="code-button-container">
+
+      <div class="qrcode" >
+        <%= image_tag qrcode(@individual), id: "qrcode" %>
+      </div>
+    </div>
+       <%# IDを変更 (任意) %%> <%# 新規登録ボタンを追加 %>
     <%# 「部位・重量を追加」ボタンや「登録」ボタンは詳細画面には不要なので削除 %>
   </div></div><%# フォーム用のJavaScriptは詳細画面には不要なので削除します %>

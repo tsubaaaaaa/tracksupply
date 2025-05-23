@@ -1,24 +1,25 @@
 <%# app/views/individuals/index.html.erb %>
 
 
-<div class="container">
+<div class="indiv-container">
+<%# individualsのうち current_user が作成したものを表示 %>
   <% @individuals.each do |i| %>
     <%# カード全体をリンクにする代わりに、Railsの link_to ヘルパーを使う方法もあります %>
     <%# 例: <%= link_to individual_path(i.id), class: "card clickable-card" do %>
-    <div class="card clickable-card" onclick="location.href='<%= individual_path(i.id) %>'">
-      <p class="card-line">
+    <div class="indiv-card clickable-card" onclick="location.href='<%= individual_path(i.id) %>'">
+      <p class="indiv-card-line">
         <i class="fas fa-hashtag"></i>
         <%= i.identification_id %> <%# 不正な </span> を削除 %>
       </p>
-      <p class="card-line">
+      <p class="indiv-card-line">
         <i class="fas fa-user"></i>
         <%= i.origin %> <%# 不正な </span> を削除 %>
       </p>
-      <p class="card-line">
+      <p class="indiv-card-line">
         <i class="fas fa-paw"></i>
         <%= i.species %> <%# 不正な </span> を削除 %>
       </p>
-      <p class="card-line">
+      <p class="indiv-card-line">
         <i class="fas fa-calendar-alt"></i>
         <%= i.hunt_date ? i.hunt_date.strftime("%Y-%m-%d") : "未登録" %> <%# 不正な </span> を削除し、日付フォーマットとnilチェックを追加 %>
       </p>

@@ -4,6 +4,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
     padding: 2rem;
+    
   }
 
   .card {
@@ -16,7 +17,9 @@
   }
 
   .card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px #cddaff90;
+
   }
 
   .card-icon {
