@@ -10,7 +10,7 @@
     flex-direction: column;
 
     overflow-y: auto; /* 縦方向のスクロールを許可 */
-    align-items: start; /* 上揃え */
+    align-items: flex-start; /* 上揃え */
   }
 
   .indiv-card {
