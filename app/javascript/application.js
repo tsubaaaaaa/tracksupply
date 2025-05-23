@@ -2,7 +2,7 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
-import "./errors.js"
-import "./add-column.js"
+import "errors"
+import "add-column"
 
 console.log("Application.js loaded!")
