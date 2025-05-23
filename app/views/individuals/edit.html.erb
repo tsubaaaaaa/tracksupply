@@ -1,0 +1,140 @@
+<%# app/views/individuals/edit.html.erb %>
+
+<%# ★★★ 親フォームの開始: @individual が既存レコードなので、url と method は自動設定される ★★★ %>
+<%= form_with model: @individual, local: true, html: { class: "main-form-container" } do |f| %>
+  <%# local: true はTurbo Driveではなく通常のフォーム送信にするオプション %>
+
+  <%# エラー表示 (変更なし) %>
+  <% if @individual.errors.any? %>
+    <div id="error-modal-overlay" class="modal-overlay">
+      <div class="modal-content">
+        <button type="button" class="close-modal-button" aria-label="閉じる">&times;</button>
+        <div id="error_explanation">
+          <h2><%= pluralize(@individual.errors.count, "個のエラー") %> が原因で更新できませんでした:</h2> <%# メッセージを少し変更 %>
+          <ul>
+            <% @individual.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="content-split-wrapper">
+    <div class="content-split-left">
+      <header class="content-header">
+        <h1>個体情報の編集</h1> <%# タイトルを変更 %>
+      </header>
+        <div class="form-section">
+            <%# --- 個体情報フィールド (内容はほぼ同じ、値は @individual から自動で入る) --- %>
+            <div class="form-group">
+            <div class="label-box">識別番号</div>
+            <%= f.text_field :identification_id, class: "form-input", placeholder: "例: ID123" %>
+            </div>
+            <div class="form-group">
+            <div class="label-box">捕獲者</div>
+            <%# 編集時は current_user.id を value にセットする必要はないことが多い %>
+            <%# @individual.user_id が既にセットされているはず %>
+            <%= f.text_field :user_id, readonly: true, class: "form-input" %>
+            </div>
+            <div class="form-group">
+            <div class="label-box">捕獲日</div>
+            <%# value: Date.today は新規作成時向け。編集時は @individual.hunt_date が使われる %>
+            <%= f.date_field :hunt_date, class: "form-input" %>
+            </div>
+            <div class="form-group">
+                <div class="label-box">捕獲地</div>
+                <%= f.text_field :origin, class: "form-input" %>
+            </div>
+            <div class="form-group">
+                <div class="label-box">種類</div>
+                <%= f.text_field :species, class: "form-input" %>
+            </div>
+            <div class="form-group">
+                <div class="label-box">捕獲方法</div>
+                <%= f.text_field :method, class: "form-input"%>
+            </div>
+            <div class="form-group">
+                <div class="label-box">月齢 (ヶ月)</div> <%# ラベルに単位を追加 %>
+                <%= f.number_field :age_in_months, class: "form-input", placeholder: "例: 12" %> <%# number_field推奨 %>
+            </div>
+            <div class="form-group">
+                <div class="label-box">重量 (kg)</div> <%# ラベルに単位を追加 %>
+                <%= f.number_field :weight, class: "form-input", placeholder: "例: 50.5", step: "0.1" %> <%# number_field推奨 %>
+            </div>
+            <div class="form-group">
+                <div class="label-box">解体日</div>
+                <%= f.date_field :disassembling_date, class: "form-input" %> <%# disassembling_date %>
+            </div>
+            <div class="form-group">
+                <div class="label-box">加工日</div>
+                <%= f.date_field :processing_date, class: "form-input" %>
+            </div>
+            <div class="form-group">
+                <div class="label-box">加工施設</div>
+                <%= f.text_field :processing_facility, class: "form-input", placeholder: "例: ○○食肉加工センター" %>
+            </div>
+            <div class="form-group">
+                <div class="label-box">加工者</div>
+                <%= f.text_field :processor_name, class: "form-input", placeholder: "例: 山田太郎" %>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-split-right">
+      <header class="content-header">
+        <h1>部位情報</h1>
+      </header>
+      <div class="content-split-right-inner">
+        <div id="inventories-container">
+          <%# 既存の部位情報を編集するために fields_for を使用 %>
+          <%= f.fields_for :inventories do |inventory_form| %>
+            <div class="form-stock-section nested-fields">
+              <div class="form-group">
+                <div class="label-box">部位</div>
+                <%= inventory_form.text_field :part, class: "form-input", placeholder: "例: ロース" %>
+              </div>
+              <div class="form-group">
+                <div class="label-box">重量 (kg)</div>
+                <%= inventory_form.number_field :weight, class: "form-input", placeholder: "例: 1.5", step: "0.1" %>
+              </div>
+              <%= inventory_form.hidden_field :_destroy %>
+              <button type="button" class="remove-part-button btn-remove" title="この部位を削除">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+              <hr>
+            </div>
+          <% end %>
+        </div>
+      </div><%# content-split-right-inner の終わり %>
+
+      <div class="fixed-bottom-actions">
+        <button type="button" id="add-inventory-button" class="btn-add" title="部位・重量を追加">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+    </div> </div><div class="form-actions">
+    <%= f.submit "更新する", class: "btn-submit" %> <%# ボタンのラベルを変更 %>
+  </div>
+
+<% end %> <%# form_with の終わり %>
+
+<%# JavaScriptテンプレート (変更なし) %>
+<template id="inventory-fields-template">
+  <div class="form-stock-section nested-fields">
+    <div class="form-group">
+      <div class="label-box">部位</div>
+      <input type="text" name="individual[inventories_attributes][__INDEX__][part]" class="form-input" placeholder="例: モモ">
+    </div>
+    <div class="form-group">
+      <div class="label-box">重量 (kg)</div>
+      <input type="number" name="individual[inventories_attributes][__INDEX__][weight]" class="form-input" placeholder="例: 2.0" step="0.1">
+    </div>
+    <button type="button" class="remove-part-button btn-remove" title="この部位を削除">
+      <i class="fa-solid fa-trash"></i>
+    </button>
+    <hr>
+  </div>
+</template>
+

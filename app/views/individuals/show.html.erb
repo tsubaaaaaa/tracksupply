@@ -100,7 +100,18 @@
       <div class="qrcode" >
         <%= image_tag qrcode(@individual), id: "qrcode" %>
       </div>
-    </div>
+        <%= button_to "編集", edit_individual_path(@individual), 
+        method: :get,
+        class: "your-button-class" %>
+
+        <%= button_to "削除", individual_path(@individual),
+        method: :delete,
+        data: { confirm: "本当に削除しますか?", turbo_confirm: "本当に削除しますか?" },
+        class: "your-button-class" %>
+        
+      </div>
+
+      
        <%# IDを変更 (任意) %%> <%# 新規登録ボタンを追加 %>
     <%# 「部位・重量を追加」ボタンや「登録」ボタンは詳細画面には不要なので削除 %>
   </div></div><%# フォーム用のJavaScriptは詳細画面には不要なので削除します %>

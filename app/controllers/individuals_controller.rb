@@ -27,6 +27,30 @@ class IndividualsController < ApplicationController
     end
   end
 
+  def edit
+    @individual = Individual.find(params[:id])
+    # 必要であれば、既存の inventories がない場合に空の入力欄を初期表示するために build する
+    @individual.inventories.build if @individual.inventories.empty?
+  end
+
+  def update
+    @individual = Individual.find(params[:id])
+    if @individual.update(individual_params) # individual_params は create と同じものが使えることが多い
+      redirect_to @individual, notice: '個体情報と部位情報が正常に更新されました。'
+    else
+      # エラー時に再度 inventories をビルドする必要がある場合がある (new アクションと同様)
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @individual = Individual.find(params[:id])
+    @individual.destroy
+    redirect_to individuals_path, notice: '個体情報が削除されました。'
+  end
+  
+
+
   private
   def individual_params
     params.require(:individual).permit(
