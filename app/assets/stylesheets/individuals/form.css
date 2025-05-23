@@ -19,7 +19,7 @@
 
   .content-split-wrapper {
     display: flex; /* これがポイント！左右に並べるためにFlexboxを使うよ */
-    gap: 0px; /* 左右のパネルの間の隙間 */ */
+    gap: 0px; /* 左右のパネルの間の隙間 */ 
     width: 100%; /* 親の幅をフルで使う */
     height: 100%; /* 不要になった */
   }
