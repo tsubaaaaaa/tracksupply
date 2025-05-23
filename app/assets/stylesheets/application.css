@@ -1,14 +1,22 @@
+/* app/assets/stylesheets/application.css */
+/*
+ *= require_self
+ *= require homes/index
+ *= require individuals/form
+ *= require_tree .
+ */
+
 
 /*homesコントローラーのindexアクションに対応するCSS*/
-@import "homes/index.css";
+/*@import "homes/index.css";
 
 /*individualsコントローラーのindexアクションに対応するCSS*/
-@import "individuals/index.css";
+/*@import "individuals/index.css";
 
 /*individualsコントローラーのshowアクションに対応するCSS*/
-@import "individuals/form.css";
+/*@import "individuals/form.css";
 
-@import "errors.css"; /* エラーページのCSS */
+/*@import "errors.css"; /* エラーページのCSS */
 
 html {
   box-sizing: border-box;
