@@ -5,7 +5,10 @@
  *= require homes/index
  *= require individuals/index
  *= require individuals/form
+  *= require shipments/new
+  *= require shipments/show
  *= require errors
+
  */
  
 html {

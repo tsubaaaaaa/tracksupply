@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_22_104926) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_17_111702) do
   create_table "group_users", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "group_id", null: false
@@ -62,6 +62,25 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_22_104926) do
     t.index ["user_id"], name: "index_inventories_on_user_id"
   end
 
+  create_table "shipment_inventories", force: :cascade do |t|
+    t.integer "shipment_id", null: false
+    t.integer "inventory_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["inventory_id"], name: "index_shipment_inventories_on_inventory_id"
+    t.index ["shipment_id"], name: "index_shipment_inventories_on_shipment_id"
+  end
+
+  create_table "shipments", force: :cascade do |t|
+    t.integer "user_id"
+    t.date "ship_date"
+    t.string "customer"
+    t.string "item"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -82,4 +101,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_22_104926) do
   add_foreign_key "inventories", "groups"
   add_foreign_key "inventories", "individuals"
   add_foreign_key "inventories", "users"
+  add_foreign_key "shipment_inventories", "inventories"
+  add_foreign_key "shipment_inventories", "shipments"
 end

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>出荷登録画面 - 複数個体対応サンプル</title>
+
+</head>
+<body>
+
+
+  <h2>出荷登録</h2>
+
+  <%= form_with model: @shipment, url: shipments_path, local: true do |f| %>
+    <div class="form-group">
+        <%= f.label :customer, '顧客名' %>
+        <%# ★ f.text_field を使って、name="shipment[customer]" を生成する %>
+        <%= f.text_field :customer, class: 'form-control', placeholder: '顧客名を入力' %>
+    </div>
+
+    <div class="form-group">
+        <%= f.label :ship_date, '出荷日' %>
+        <%# ★ f.date_field を使って、name="shipment[ship_date]" を生成する %>
+        <%= f.date_field :ship_date, class: 'form-control', placeholder: '出荷日を入力' %>
+    </div>
+
+    <h3>出荷アイテム</h3>
+
+    <div class="shipment-groups-container-scrollable">
+    <%# スクロール可能なコンテナ %>
+        <div id="shipment-groups-container">
+        </div>
+
+        <button type="button" id="add-shipment-group" class="btn btn-add-group">商品を追加</button>
+        
+    </div>
+
+    <div class="form-actions" style="text-align: right; margin-top: 20px;">
+      <button type="submit" class="btn">出荷登録</button>
+    </div>
+  <% end %>
+</div>
+
+<template id="shipment-group-template">
+  <div class="shipment-group">
+    <div class="shipment-group-header">
+      <label>個体・部位の選択</label>
+      <button type="button" class="btn-remove-group">この商品を削除</button>
+    </div>
+    
+    <div class="form-group">
+        <%# 以前は <select ...> だった部分 %>
+        <%= label_tag :individual_selector, "識別番号" %> <%# ラベルを追加 %>
+        <%= select_tag :individual_selector,
+                        options_from_collection_for_select(@individuals, :id, :identification_id),
+                        prompt: "識別番号を選択してください",
+                        class: "form-control individual-selector" %>
+        </div>
+    
+    <div class="form-group">
+      <div class="inventory-selection-area inventory-selection-list">
+        <p class="text-muted">部位を選択してください。</p>
+      </div>
+    </div>
+  </div>
+</template>
+
+
+<script>
+  // --- JavaScript ---
+
+  // サンプルデータ
+  const mockInventories = {
+    "1": [ { id: 101, part: "ロース", weight: 5.2 }, { id: 102, part: "モモ", weight: 8.5 }, { id: 103, part: "バラ", weight: 3.1 } ],
+    "2": [ { id: 201, part: "肩ロース", weight: 10.0 }, { id: 202, part: "ヒレ", weight: 1.8 } ],
+    "3": []
+  };
+
+  document.addEventListener('turbo:load', () => {
+    const addGroupButton = document.getElementById('add-shipment-group');
+    const groupsContainer = document.getElementById('shipment-groups-container');
+    const groupTemplate = document.getElementById('shipment-group-template');
+    
+    if (!addGroupButton || !groupsContainer || !groupTemplate) return;
+
+    // 「個体を追加」ボタンの処理
+    addGroupButton.addEventListener('click', () => {
+      const newGroup = groupTemplate.content.cloneNode(true);
+      groupsContainer.appendChild(newGroup);
+    });
+
+    // コンテナ全体でイベントを監視する「イベント委任」パターン
+    groupsContainer.addEventListener('click', (event) => {
+      // 「この個体を削除」ボタンがクリックされた場合
+      if (event.target.classList.contains('btn-remove-group')) {
+        event.target.closest('.shipment-group').remove();
+      }
+    });
+
+    groupsContainer.addEventListener('change', (event) => {
+      // 「個別番号」ドロップダウンが変更された場合
+      if (event.target.classList.contains('individual-selector')) {
+        const individualId = event.target.value;
+        const currentGroup = event.target.closest('.shipment-group');
+        const inventoryArea = currentGroup.querySelector('.inventory-selection-area');
+        
+        inventoryArea.innerHTML = ''; // エリアをクリア
+
+        if (individualId) {
+          inventoryArea.innerHTML = '<p>読み込み中...</p>';
+          
+          // fetch を使ってサーバーにデータを問い合わせる
+        fetch(`/individuals/${individualId}/inventories`)
+          .then(response => {
+            if (!response.ok) { // レスポンスが正常でない場合 (例: 404, 500)
+              throw new Error('Network response was not ok');
+            }
+            return response.json(); // レスポンスをJSONとして解析
+          })
+          .then(inventories => {
+            inventoryArea.innerHTML = ''; // ローディング表示を消す
+
+            if (inventories.length > 0) {
+              inventories.forEach(inventory => {
+                // 各部位のチェックボックスとラベルを作成
+                const div = document.createElement('div');
+                div.className = 'form-check';
+                div.innerHTML = `
+                  <input type="checkbox" class="form-check-input" name="shipment[inventory_ids][]" value="${inventory.id}" id="inventory_${inventory.id}">
+                  <label class="form-check-label" for="inventory_${inventory.id}">
+                    ${inventory.part} (${inventory.weight || '重量未登録'}kg)
+                  </label>
+                `;
+                inventoryArea.appendChild(div);
+              });
+            } else {
+              inventoryArea.innerHTML = '<p class="text-muted">出荷可能な部位がありません。</p>';
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching inventories:', error);
+            inventoryArea.innerHTML = '<p class="text-danger">部位の読み込みに失敗しました。</p>';
+          });
+      } else {
+        inventoryArea.innerHTML = '<p class="text-muted">個別番号を選択してください。</p>';
+      }
+    }
+  });
+});
+</script>
+
+</body>
+</html>

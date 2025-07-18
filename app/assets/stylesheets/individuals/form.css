@@ -35,11 +35,7 @@
     overflow: auto;
   }
 
-  .content-split-right .content-split-right-inner {
-    flex-grow: 1; /* ★ヘッダーとフッターを除いた残りのスペースを全て使う */
-    overflow-y: auto; /* ★この要素の内容が多ければ、ここでスクロールが発生する */
-    padding: 15px; /* スクロールするコンテンツエリアの内側の余白 */
-  }
+
   
   
   .content-header {
@@ -123,6 +119,15 @@
     color: #6c757d;
     background-color: #fcfcfc;
 }
+
+/* ★出荷済みラベル用のスタイルを追加 */
+.displayed-value.shipped-label,
+.label-box.shipped-label {
+  background-color: #fcbec4; /* 背景色を赤に */
+  color: #6c757d;             /* 文字色を白に */
+  /* border: 1px solid #c82333; */ /* 枠線を付ける場合 (任意) */
+}
+
 
 .form-input:focus{
     border-color: #cde5fe; /* フォーカス時のボーダー色 */

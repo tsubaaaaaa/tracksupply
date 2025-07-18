@@ -69,7 +69,9 @@
         <div class="displayed-value"><%= @individual.processor_name %></div>
       </div>
     </div>
-  </div><div class="content-split-right">
+  </div>
+  
+  <div class="content-split-right">
     <div class="inventories-display-container"> <%# IDを変更 (任意) %>
       <header class="content-header">
         <h1>部位情報</h1>
@@ -80,12 +82,14 @@
           <% @individual.inventories.each do |inventory| %>
             <div class="details-section"> <%# form-stock-section から名称変更 (任意) %>
               <div class="detail-group">
+              <%# status=shippedなら赤、stockedなら緑 %>
                 <div class="label-box">部位</div>
-                <div class="displayed-value"><%= inventory.part %></div>
+                <div class="displayed-value <%= 'shipped-label' if inventory.status == 'shipped' %>">
+                <%= inventory.part %></div>
               </div>
               <div class="detail-group">
                 <div class="label-box">重量 (kg)</div>
-                <div class="displayed-value"><%= inventory.weight %></div>
+                <div class="displayed-value <%= 'shipped-label' if inventory.status == 'shipped' %>"><%= inventory.weight %></div>
               </div>
             </div>
           <% end %>
@@ -109,9 +113,8 @@
         data: { confirm: "本当に削除しますか?", turbo_confirm: "本当に削除しますか?" },
         class: "your-button-class" %>
         
-      </div>
-
-      
+    </div> 
        <%# IDを変更 (任意) %%> <%# 新規登録ボタンを追加 %>
     <%# 「部位・重量を追加」ボタンや「登録」ボタンは詳細画面には不要なので削除 %>
-  </div></div><%# フォーム用のJavaScriptは詳細画面には不要なので削除します %>
+  </div>
+</div><%# フォーム用のJavaScriptは詳細画面には不要なので削除します %>

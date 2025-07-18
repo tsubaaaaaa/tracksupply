@@ -21,8 +21,17 @@ Rails.application.routes.draw do
   #個体情報のルーティング
   resources :individuals
 
+  resources :individuals, only: [] do
+    member do
+      get :inventories
+    end
+  end
+
   #在庫情報のルーティング
   resources :inventories 
+
+  #出荷情報のルーティング
+  resources :shipments 
 
  
 

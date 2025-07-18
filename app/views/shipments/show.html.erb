@@ -1,0 +1,56 @@
+<div class="shipment-show-container">
+  <header class="content-header">
+    <h1>出荷情報詳細</h1>
+  </header>
+
+  <div class="content-split-wrapper">
+    <%# --- 左側: 出荷の基本情報 --- %>
+    <div class="content-split-left details-section">
+      <div class="detail-group">
+        <div class="label-box">出荷ID</div>
+        <p class="displayed-value"><%= @shipment.id %></p>
+      </div>
+      <div class="detail-group">
+        <div class="label-box">顧客名</div>
+        <p class="displayed-value"><%= @shipment.customer %></p>
+      </div>
+      <div class="detail-group">
+        <div class="label-box">出荷日</div>
+        <p class="displayed-value"><%= @shipment.ship_date %></p> <%# 日付表示ヘルパーを使用 %>
+      </div>
+      <div class="detail-group">
+        <div class="label-box">担当者</div>
+        <p class="displayed-value"><%= @shipment.user_id.try(:name) || 'N/A' %></p>
+      </div>
+    </div>
+
+    <%# --- 右側: 出荷アイテム一覧 --- %>
+    <div class="content-split-right details-section">
+      <h2>出荷アイテム一覧</h2>
+      <table class="shipment-items-table">
+        <thead>
+          <tr>
+            <th>部位</th>
+            <th>重量 (kg)</th>
+            <th>個体ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @shipment.inventories.each do |inventory| %>
+            <tr>
+              <td><%= inventory.part %></td>
+              <td><%= inventory.weight %></td>
+              <td><%= link_to inventory.individual.identification_id, individual_path(inventory.individual) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <%# --- アクションボタン --- %>
+  <div class="page-actions">
+    <%= link_to '編集', edit_shipment_path(@shipment), class: 'btn' %>
+    <%= link_to '出荷一覧へ戻る', shipments_path, class: 'btn btn-secondary' %>
+  </div>
+</div>

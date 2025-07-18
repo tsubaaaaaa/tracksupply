@@ -3,6 +3,10 @@ class Inventory < ApplicationRecord
   belongs_to :user
   #belongs_to :group
 
+  has_many :shipment_inventories
+  has_many :shipments, through: :shipment_inventories
+
+
   validates :part, presence: false
   validates :weight, 
             presence: false, 

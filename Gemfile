@@ -29,6 +29,9 @@ gem "kaminari"
 
 gem 'fiddle'
 
+#検索機能
+gem "ransack"
+
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"

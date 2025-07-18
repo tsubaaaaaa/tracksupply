@@ -1,9 +1,10 @@
 /*<%# app/views/individuals/index.html.erb %>*/
 
-  .indiv-container {
+  .indiv-container,
+  .shipment-container {
     display: grid; /* ★ CSS Grid を使用 */
     height: 100%; /* 親要素の高さを100%に設定 */
-    grid-template-columns: repeat(2, 1fr); /* ★ 2つの均等な幅の列を作成 */
+    grid-template-columns: repeat(3, 1fr); /* ★ 2つの均等な幅の列を作成 */
     grid-template-rows: auto; /* 行の高さは自動調整 */
     gap: 20px; /* カード間の隙間 */
     padding: 20px;
@@ -12,7 +13,8 @@
     align-content: start;
   }
 
-  .indiv-card {
+  .indiv-card,
+  .shipment-card {
     background-color: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
@@ -23,21 +25,56 @@
     cursor: pointer;
   }
   .clickable-card:hover {
-    border: 1px solid  #cddaff90;
-    transform: translateY(-2px);
-    box-shadow:  #cddaff90;
+    border: 1px solid  #6f96ff;
+    transform: translateY(0px);
+    box-shadow: 0 4px 12px rgba(155, 183, 255, 0.569);
   }
-  .indiv-card-line {
-    font-size: 1em; /* 基本的に親から継承されるので、明示的に指定する必要は少ない */
-    margin-bottom: 10px;
+
+  
+  .indiv-card-wrapper,
+  .shipment-card-wrapper {
+    display: flex;
+    height: 100%; /* 親要素の高さを100%に設定 */
+    background-color: rgb(255, 255, 255);
+    flex-direction: column; /* 横方向に並べる */
+    justify-content: center; /* 上下に中央揃え */  
+
+  }
+
+
+  .indiv-card-line,
+  .shipment-card-line {
+    font-size: 0.8em; /* 基本的に親から継承されるので、明示的に指定する必要は少ない */
+    margin-bottom: 0px;
     display: flex;
     align-items: center;
     min-height: 1.5em; /* ★ 例: フォントサイズの1.5倍の高さを最低限確保 */
-
   }
-  .indiv-card-line .fas { /* Font Awesome アイコンのスタイル */
+
+  .indiv-card-id,
+  .shipment-card-id {
+    font-size: 1em; /* 基本的に親から継承されるので、明示的に指定する必要は少ない */
+    margin-bottom: 0px;
+    display: flex;
+    align-items: center;
+    min-height: 1.5em; /* ★ 例: フォントサイズの1.5倍の高さを最低限確保 */
+    border-bottom: 1px solid #e0e0e0; /* 下線を追加 */
+  }
+  
+  .indiv-card-line .fas,
+  .indiv-card-id .fas,
+  .shipment-card-line .fas,
+  .shipment-card-id .fas { /* Font Awesome アイコンのスタイル */
     margin-right: 8px;
     color: #555;
     width: 1.2em; /* アイコンの幅を揃えると見た目が良くなることも */
     text-align: center;
+  }
+
+  .card-qrcode{
+    height: 100%;
+    width: 100%;
+    object-fit: cover; /* 画像のアスペクト比を維持しつつ、要素にフィットさせる */
+    align-content: center;
+    justify-content: center;
   }

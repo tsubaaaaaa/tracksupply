@@ -7,6 +7,9 @@ class User < ApplicationRecord
   # ユーザーは複数の個体情報を持つ
   has_many :individuals, dependent: :destroy
 
+  # ユーザーは複数の出荷情報を持つ
+  has_many :shipments
+  
   # ユーザーは複数の在庫情報を持つ
   has_many :inventories, dependent: :destroy
 

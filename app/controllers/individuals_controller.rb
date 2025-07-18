@@ -4,7 +4,9 @@ class IndividualsController < ApplicationController
     @individuals = Individual.where(user_id: current_user.id)
     #@individuals = Individual.includes(:inventories)
                               #.where(user: current_user)
-                             # .order(updated_at: :desc)
+                             # .order(updated_at: :desc
+                             
+    
   end
 
   def show
@@ -49,6 +51,12 @@ class IndividualsController < ApplicationController
     redirect_to individuals_path, notice: '個体情報が削除されました。'
   end
   
+    def inventories
+      individual = Individual.find(params[:id])
+      # "stocked" 状態の在庫に絞り込む
+      @available_inventories = individual.inventories.where(status: 'stocked')
+      render json: @available_inventories.select(:id, :part, :weight)
+    end
 
 
   private
