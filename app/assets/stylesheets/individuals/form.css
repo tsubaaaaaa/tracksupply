@@ -34,9 +34,6 @@
     flex-direction: column; /* 縦に並べる */ 
     overflow: auto;
   }
-
-
-  
   
   .content-header {
     margin-bottom: 30px;
@@ -57,7 +54,16 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* 2列のグリッドレイアウトを作成 */
     gap: 10px; /* 各要素の間に20pxの隙間を作成 */
-    align-items: center;
+    margin: 0;
+    align-items: start;
+  }
+
+  .details-stock-section{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2列のグリッドレイアウトを作成 */
+    gap: 10px; /* 各要素の間に10pxの隙間を作成 */
+    align-items: start; /* 縦方向の中央揃え */
+    margin-bottom: 10px; /* 下部に余白を追加 */
   }
 
   .form-stock-section{
@@ -67,24 +73,23 @@
     align-items: center;
   }
 
-  .inventories-display-container
-  {
+  .inventories-display-container{
     grid-template-columns: repeat(2, 1fr); /* 2列のグリッドレイアウトを作成 */
     background-color: #f8f9fa; /* 背景色を薄いグレーに */
-    gap: 10px; /* 各要素の間に10pxの隙間を作成 */
     align-items: center; /* 縦方向の中央揃え */
-    height: 70%; /* 高さを100%に設定 */
+    height: 80%; /* 高さを100%に設定 */
     overflow-y: auto; /* 内容が多い場合はスクロール可能にする */
   }
   
   .form-group,
   .detail-group {
-    margin: 20px;
+    margin: 4px;
     position: relative;
   }
   
   /* 浮遊するラベルを持つform-groupに特定のパディングを設定 */
-  .form-group.floating-label-group .form-input {
+  .form-group.floating-label-group .form-input,
+  .detail-group.floating-label-group .displayed-value {
     padding-top: 25px;
     padding-bottom: 12px;
     padding-left: 15px;
@@ -98,8 +103,8 @@
     left: 10px;
     background-color: #fcfcfc;
     color: #6c757d;
-    font-size: 0.8rem;
-    font-weight: 600;
+    font-size: 0.6rem;
+
     padding: 3px 6px;
     border-radius: 5px;
     z-index: 10;
@@ -108,32 +113,33 @@
   }
 
   /*フォーム*/
-.form-input,
-.displayed-value {
-    width: 100%;
-    height: 50px;
-    padding: 12px 15px;
-    border: 1px solid #ced4da;
-    border-radius: 6px;
-    font-size: 1rem;
-    color: #6c757d;
-    background-color: #fcfcfc;
-}
+  .form-input,
+  .displayed-value {
+      width: 100%;
+      height: 50px;
+      padding: 12px 15px;
+      border: 1px solid #ced4da;
+      border-radius: 6px;
+      font-size: 1rem;
+      color: #44494d;
+      background-color: #fcfcfc; 
+      place-items: center; /* 中央揃え */
+  }
 
-/* ★出荷済みラベル用のスタイルを追加 */
-.displayed-value.shipped-label,
-.label-box.shipped-label {
-  background-color: #fcbec4; /* 背景色を赤に */
-  color: #6c757d;             /* 文字色を白に */
-  /* border: 1px solid #c82333; */ /* 枠線を付ける場合 (任意) */
-}
+  /* ★出荷済みラベル用のスタイルを追加 */
+  .displayed-value.shipped-label,
+  .label-box.shipped-label {
+    background-color: #fcbec4; /* 背景色を赤に */
+    color: #6c757d;             /* 文字色を白に */
+    /* border: 1px solid #c82333; */ /* 枠線を付ける場合 (任意) */
+  }
 
 
-.form-input:focus{
-    border-color: #cde5fe; /* フォーカス時のボーダー色 */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* フォーカス時の影 */
-    outline: none; /* デフォルトのアウトラインを消す */
-}
+  .form-input:focus{
+      border-color: #cde5fe; /* フォーカス時のボーダー色 */
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* フォーカス時の影 */
+      outline: none; /* デフォルトのアウトラインを消す */
+  }
   /* ボタン類をラップするコンテナ（もしinnerの外に出すなら） */
   .content-split-right .bottom-actions-container {
     padding: 15px;
@@ -239,11 +245,29 @@
     /* 特に追加のスタイルは不要なことが多い */
   }
 
-  .code-button-container {
-    display: flex;
-    background-color: #f8f9fa; /* 背景色を薄いグレーに */
-    height: 30%;
-    justify-content: left; /* 中央寄せ */
-    padding-left: 10%;
-    align-items: center; /* 縦方向の中央揃え */
-    }
+  .qr-actions-section {
+    display: flex;         /* QRコードとボタンを横並びにする */
+    align-items: center;   /* 垂直方向の中央揃え */
+    gap: 20px;             /* QRコードとボタンの間の隙間 */
+    margin-top: 20px;      /* 上の部位情報エリアとのマージン */
+    padding: 20px;         /* このセクションの内側の余白 */
+    border-top: 1px solid #f0f0f0; /* 上に区切り線 */
+  }
+
+/* QRコードを囲むラッパー */
+  .qr-code-wrapper {
+    flex-shrink: 0; /* QRコードが縮まないように */
+  }
+
+  .qr-code-wrapper img {
+    width: 120px;  /* QRコードのサイズ */
+    height: 120px;
+    display: block; /* 余分な隙間をなくす */
+  }
+
+  /* アクションボタンを囲むコンテナ */
+  .action-buttons {
+    
+    flex-direction: column;/* または column にして縦に並べる */
+    gap: 10px;             /* ボタン間の隙間 */
+  }

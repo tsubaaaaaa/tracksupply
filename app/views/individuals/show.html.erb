@@ -21,7 +21,7 @@
 
       <div class="detail-group">
         <div class="label-box">捕獲日</div>
-        <div class="displayed-value"><%= @individual.hunt_date ? @individual.hunt_date.strftime("%Y年%m月%d日") : "未登録" %></div>
+        <div class="displayed-value"><%= @individual.hunt_date ? @individual.hunt_date.strftime("%Y-%m-%d") : "未登録" %></div>
       </div>
 
       <div class="detail-group">
@@ -51,12 +51,12 @@
 
       <div class="detail-group">
         <div class="label-box">解体日</div>
-        <div class="displayed-value"><%= @individual.disassembling_date ? @individual.disassembling_date.strftime("%Y年%m月%d日") : "未登録" %></div>
+        <div class="displayed-value"><%= @individual.disassembling_date ? @individual.disassembling_date.strftime("%Y-%m-%d") : "未登録" %></div>
       </div>
 
       <div class="detail-group">
         <div class="label-box">加工日</div>
-        <div class="displayed-value"><%= @individual.processing_date ? @individual.processing_date.strftime("%Y年%m月%d日") : "未登録" %></div>
+        <div class="displayed-value"><%= @individual.processing_date ? @individual.processing_date.strftime("%Y-%m-%d") : "未登録" %></div>
       </div>
 
       <div class="detail-group">
@@ -69,18 +69,28 @@
         <div class="displayed-value"><%= @individual.processor_name %></div>
       </div>
     </div>
-  </div>
-  
-  <div class="content-split-right">
-    <div class="inventories-display-container"> <%# IDを変更 (任意) %>
-      <header class="content-header">
-        <h1>部位情報</h1>
-      </header>
 
-      <div id="inventories-display-container"> <%# IDを変更 (任意) %>
+      <div class="qr-actions-section">
+        <div class="qr-code-wrapper">
+            <%= image_tag qrcode(@individual), id: "qrcode" %>
+        </div>
+        <div class="action-buttons">
+          <%= link_to '編集', edit_individual_path(@individual), class:"btn btn-secondary" %>
+          <a href="#" class="btn btn-danger">削除</a>
+        </div>
+      </div>
+    
+  </div>
+  <div class="content-split-right">
+    
+    <header class="content-header">
+      <h1>部位情報</h1>
+    </header>
+    <div class="inventories-display-container"> <%# IDを変更 (任意) %>
+      <div id="inventories-container"> <%# IDを変更 (任意) %>
         <% if @individual.inventories.any? %>
           <% @individual.inventories.each do |inventory| %>
-            <div class="details-section"> <%# form-stock-section から名称変更 (任意) %>
+            <div class="details-stock-section"> <%# form-stock-section から名称変更 (任意) %>
               <div class="detail-group">
               <%# status=shippedなら赤、stockedなら緑 %>
                 <div class="label-box">部位</div>
@@ -93,27 +103,11 @@
               </div>
             </div>
           <% end %>
-        <% else %>
+          <% else %>
           <p>登録されている部位情報はありません。</p>
         <% end %>
       </div>
     </div>
-
-    <div class="code-button-container">
-
-      <div class="qrcode" >
-        <%= image_tag qrcode(@individual), id: "qrcode" %>
-      </div>
-        <%= button_to "編集", edit_individual_path(@individual), 
-        method: :get,
-        class: "your-button-class" %>
-
-        <%= button_to "削除", individual_path(@individual),
-        method: :delete,
-        data: { confirm: "本当に削除しますか?", turbo_confirm: "本当に削除しますか?" },
-        class: "your-button-class" %>
-        
-    </div> 
        <%# IDを変更 (任意) %%> <%# 新規登録ボタンを追加 %>
     <%# 「部位・重量を追加」ボタンや「登録」ボタンは詳細画面には不要なので削除 %>
   </div>

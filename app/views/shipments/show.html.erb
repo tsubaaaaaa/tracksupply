@@ -1,56 +1,67 @@
-<div class="shipment-show-container">
-  <header class="content-header">
-    <h1>出荷情報詳細</h1>
-  </header>
-
-  <div class="content-split-wrapper">
+<div class="content-split-wrapper">
     <%# --- 左側: 出荷の基本情報 --- %>
-    <div class="content-split-left details-section">
-      <div class="detail-group">
-        <div class="label-box">出荷ID</div>
-        <p class="displayed-value"><%= @shipment.id %></p>
-      </div>
-      <div class="detail-group">
-        <div class="label-box">顧客名</div>
-        <p class="displayed-value"><%= @shipment.customer %></p>
-      </div>
-      <div class="detail-group">
-        <div class="label-box">出荷日</div>
-        <p class="displayed-value"><%= @shipment.ship_date %></p> <%# 日付表示ヘルパーを使用 %>
-      </div>
-      <div class="detail-group">
-        <div class="label-box">担当者</div>
-        <p class="displayed-value"><%= @shipment.user_id.try(:name) || 'N/A' %></p>
+  <div class="content-split-left">
+
+    <header class="content-header">
+      <h1>出荷情報詳細</h1>
+    </header>
+      <div class="details-section">
+        <div class="detail-group">
+          <div class="label-box">出荷ID</div>
+          <p class="displayed-value"><%= @shipment.id %></p>
+        </div>
+        <div class="detail-group">
+          <div class="label-box">顧客名</div>
+          <p class="displayed-value"><%= @shipment.customer %></p>
+        </div>
+        <div class="detail-group">
+          <div class="label-box">出荷日</div>
+          <p class="displayed-value"><%= @shipment.ship_date %></p> <%# 日付表示ヘルパーを使用 %>
+        </div>
+        <div class="detail-group">
+          <div class="label-box">担当者</div>
+          <p class="displayed-value"><%= @shipment.user_id.try(:name) || 'N/A' %></p>
+        </div>
       </div>
     </div>
 
     <%# --- 右側: 出荷アイテム一覧 --- %>
-    <div class="content-split-right details-section">
-      <h2>出荷アイテム一覧</h2>
-      <table class="shipment-items-table">
-        <thead>
-          <tr>
-            <th>部位</th>
-            <th>重量 (kg)</th>
-            <th>個体ID</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @shipment.inventories.each do |inventory| %>
-            <tr>
-              <td><%= inventory.part %></td>
-              <td><%= inventory.weight %></td>
-              <td><%= link_to inventory.individual.identification_id, individual_path(inventory.individual) %></td>
-            </tr>
+    <div class="content-split-right">
+      <div class="inventories-display-container">
+        <header class="content-header">
+          <h1>出荷アイテム一覧</h1>
+        </header> 
+
+         <div id="inventories-display-container"> <%# IDを変更 (任意) %>
+          <% if @shipment.inventories.any? %>
+            <% @shipment.inventories.each do |inventory| %>
+              <div class="details-section"> <%# form-stock-section から名称変更 (任意) %>
+                <div class="detail-group">
+                <%# status=shippedなら赤、stockedなら緑 %>
+                  <div class="label-box">部位</div>
+                  <div class="displayed-value <%= 'shipped-label' if inventory.status == 'shipped' %>">
+                  <%= inventory.part %></div>
+                </div>
+                <div class="detail-group">
+                  <div class="label-box">重量 (kg)</div>
+                  <div class="displayed-value <%= 'shipped-label' if inventory.status == 'shipped' %>"><%= inventory.weight %></div>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <p>登録されている部位情報はありません。</p>
           <% end %>
-        </tbody>
-      </table>
+        </div>
+      </div>
     </div>
+
+      <%# --- アクションボタン --- %>
+    <div class="page-actions">
+      <%= link_to '編集', edit_shipment_path(@shipment), class: 'btn' %>
+      <%= link_to '出荷一覧へ戻る', shipments_path, class: 'btn btn-secondary' %>
+    </div>
+    
   </div>
 
-  <%# --- アクションボタン --- %>
-  <div class="page-actions">
-    <%= link_to '編集', edit_shipment_path(@shipment), class: 'btn' %>
-    <%= link_to '出荷一覧へ戻る', shipments_path, class: 'btn btn-secondary' %>
-  </div>
+  
 </div>

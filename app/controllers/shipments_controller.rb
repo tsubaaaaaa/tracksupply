@@ -45,6 +45,8 @@ end
   def show
     # 関連するinventories、各inventoryのindividual、shipmentのuserも一緒に読み込む
     @shipment = Shipment.includes(inventories: :individual, user: []).find(params[:id])
+    @shipment_inventories = @shipment.inventories
+    
   end
 
   private
