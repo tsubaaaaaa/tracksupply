@@ -1,32 +1,47 @@
+
+<%# app/views/individuals/show.html.erb (または詳細表示用のビューファイル) %>
 <div class="content-split-wrapper">
-    <%# --- 左側: 出荷の基本情報 --- %>
   <div class="content-split-left">
 
     <header class="content-header">
-      <h1>出荷情報詳細</h1>
+      <h1>出荷情報詳細</h1> <%# タイトルを変更 %>
     </header>
-      <div class="details-section">
-        <div class="detail-group">
-          <div class="label-box">出荷ID</div>
-          <p class="displayed-value"><%= @shipment.id %></p>
-        </div>
-        <div class="detail-group">
-          <div class="label-box">顧客名</div>
-          <p class="displayed-value"><%= @shipment.customer %></p>
-        </div>
-        <div class="detail-group">
-          <div class="label-box">出荷日</div>
-          <p class="displayed-value"><%= @shipment.ship_date %></p> <%# 日付表示ヘルパーを使用 %>
-        </div>
-        <div class="detail-group">
-          <div class="label-box">担当者</div>
-          <p class="displayed-value"><%= @shipment.user_id.try(:name) || 'N/A' %></p>
+
+    <div class="details-section"> <%# form-section から名称変更 (任意) %>
+      <%# --- 個体情報フィールド --- %>
+      <div class="detail-group"> <%# form-group から名称変更 (任意) %>
+        <div class="label-box">出荷ID</div>
+        <div class="displayed-value"><%= @shipment.id %>
         </div>
       </div>
-    </div>
 
-    <%# --- 右側: 出荷アイテム一覧 --- %>
-    <div class="content-split-right">
+      <div class="detail-group">
+        <div class="label-box">顧客名</div>
+        <%# Userモデルにname属性などがある場合 %>
+        <div class="displayed-value"><%= @shipment.customer %>
+        </div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">出荷日</div>
+        <div class="displayed-value"><%= @shipment.ship_date ? @shipment.ship_date.strftime("%Y-%m-%d") : "未登録" %>
+        </div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">捕獲地</div>
+        <div class="displayed-value"><%= @shipment.user_id.try(:name) || 'N/A' %>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <%= link_to '編集', edit_shipment_path(@shipment), class: 'btn' %>
+        <%= link_to '出荷一覧へ戻る', shipments_path, class: 'btn btn-secondary' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-split-right">
       <div class="inventories-display-container">
         <header class="content-header">
           <h1>出荷アイテム一覧</h1>
@@ -54,14 +69,7 @@
         </div>
       </div>
     </div>
-
-      <%# --- アクションボタン --- %>
-    <div class="page-actions">
-      <%= link_to '編集', edit_shipment_path(@shipment), class: 'btn' %>
-      <%= link_to '出荷一覧へ戻る', shipments_path, class: 'btn btn-secondary' %>
-    </div>
-    
+       <%# IDを変更 (任意) %%> <%# 新規登録ボタンを追加 %>
+    <%# 「部位・重量を追加」ボタンや「登録」ボタンは詳細画面には不要なので削除 %>
   </div>
-
-  
-</div>
+</div><%# フォーム用のJavaScriptは詳細画面には不要なので削除します %>

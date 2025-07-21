@@ -1,0 +1,46 @@
+<%# app/views/inventoriesiduals/index.html.erb %>
+
+<%# 検索機能の実装 %>
+<%# 検索フォームの作成 %>
+<%= form_with url: individuals_path, method: :get, data: { turbo_frame: "_top" } do |f| %>
+  <%# data: { turbo_frame: "_top" } は、もしTurboを使っていて、検索結果でページ全体を更新したい場合に有効 %>
+  <div class="search-form">
+    <%= f.text_field :keyword, value: params[:keyword], placeholder: "キーワードを入力", class: "search-input" %>
+    <%# または、モデルに紐づけないなら text_field_tag のままでもOK %>
+    <%# <%= text_field_tag :keyword, params[:keyword], placeholder: "キーワードを入力", class: "search-input" %> 
+    <%= f.submit "検索", class: "search-button" %>
+  </div>
+<% end %>
+
+<div class="inventories-container">
+<%# inventoriesのうち current_user が作成したものを表示 %>
+  <% @inventories.each do |i| %>
+    <%# カード全体をリンクにする代わりに、Railsの link_to ヘルパーを使う方法もあります %>
+    <%# 例: <%= link_to inventoriesidual_path(i.id), class: "card clickable-card" do %>
+    <div class="inventories-card clickable-card" onclick="location.href='<%= inventories_path(i.id) %>'">
+      <div class="inventories-card-wrapper">
+          <p class="inventories-card-id">
+            <i class="fas fa-hashtag"></i>
+            <%= i.id ? i.id : "未登録" %> <%# 不正な </span> を削除 %>
+          </p>
+          <p class="inventories-card-line">
+            <i class="fas fa-utensils"></i>
+            <%= i.part ? i.part  : "未登録" %> <%# 不正な </span> を削除 %>
+          </p>
+          <p class="inventories-card-line">
+            <i class="fas fa-weight-scale"></i>
+            <%= i.weight.present? ? "#{i.weight} kg" : "未登録" %> <%# 不正な </span> を削除 %>
+          </p>
+          <p class="inventories-card-line">
+            <i class="fas fa-boxes-stacked"></i>
+            <%= i.status ? i.status : "未登録" %> <%# 不正な </span> を削除し、日付フォーマットとnilチェックを追加 %>
+          </p>
+          <p class="inventories-card-line">
+            <i class="fas fa-paw"></i>
+            <%# 紐づくinventoriesの数を表示 %>
+            <%= i.individual_id ? i.individual_id : "未登録" %> <%# 不正な </span> を削除 %>
+          </p>     
+      </div> <%# class="inventories-card-wrapper" %>    
+    </div> <%# class="inventories-card clickable-card" %>
+  <% end %>
+</div>

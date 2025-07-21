@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_17_111702) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_21_092056) do
   create_table "group_users", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "group_id", null: false
@@ -44,6 +44,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_17_111702) do
     t.date "processing_date"
     t.string "processing_facility"
     t.string "processor_name"
+    t.string "hit_area"
+    t.string "damaged_parts"
+    t.string "blood_letting"
+    t.boolean "cooling"
+    t.string "travel_time"
     t.index ["user_id"], name: "index_individuals_on_user_id"
   end
 

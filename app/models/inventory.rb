@@ -3,7 +3,7 @@ class Inventory < ApplicationRecord
   belongs_to :user
   #belongs_to :group
 
-  has_many :shipment_inventories
+  has_many :shipment_inventories, dependent: :destroy
   has_many :shipments, through: :shipment_inventories
 
 
@@ -18,6 +18,7 @@ class Inventory < ApplicationRecord
   before_validation :set_user_from_individual, on: :create
 
   private
+
   def set_user_from_individual
     if individual.present? && user_id.blank?
       self.user_id = individual.user_id

@@ -1,4 +1,6 @@
 class Individual < ApplicationRecord
+
+  
   #個体情報は1人のユーザーに紐づく
   belongs_to :user
 

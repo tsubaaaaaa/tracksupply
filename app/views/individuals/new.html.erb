@@ -41,15 +41,41 @@
           </div>
           <div class="form-group">
             <div class="label-box">捕獲地</div>
-            <%= f.text_field :origin, class: "form-input", placeholder: "地域を入力してください" %>
+            <%= f.text_field :origin, class: "form-input", placeholder: "例：札幌" %>
           </div>
           <div class="form-group">
             <div class="label-box">種類</div>
-            <%= f.text_field :species, class: "form-input", placeholder: "種類を入力してください" %>
+            <%= f.text_field :species, class: "form-input", placeholder: "例：鹿" %>
           </div>
           <div class="form-group">
             <div class="label-box">捕獲方法</div>
-            <%= f.text_field :method, class: "form-input", placeholder: "捕獲方法を入力してください" %>
+            <%= f.select :method, 
+                        options_for_select([["銃", "gan"], ["わな（くくり）", "wana_kukuri"],
+                         ["わな（かこい）", "wana_kakoi"], ["その他", "other"]]), 
+                        { prompt: "選択してください" }, 
+                        { class: "form-input" } %>
+          </div>
+          <div class="form-group">
+            <div class="label-box">被弾部位</div>
+            <%= f.text_field :hit_area, class: "form-input", placeholder: "例：頭" %>
+          </div>
+          <div class="form-group">
+            <div class="label-box">損傷有無</div>
+            <%= f.text_field :damaged_parts, class: "form-input", placeholder: "例：脚" %>
+          </div>
+          <div class="form-group">
+            <div class="label-box">放血の有無</div>
+            <%= f.select :blood_letting, 
+                        options_for_select([["有", "あり"], ["無", "なし"]]), 
+                        { prompt: "選択してください" }, 
+                        { class: "form-input" } %>
+          </div>
+          <div class="form-group">
+            <div class="label-box">運搬時冷蔵の有無</div>
+            <%= f.select :cooling, 
+                        options_for_select([["有", "あり"], ["無", "なし"]]), 
+                        { prompt: "選択してください" }, 
+                        { class: "form-input" } %>
           </div>
           <div class="form-group">
             <div class="label-box">月齢 (ヶ月)</div> <%# ラベルに単位を追加 %>
@@ -90,8 +116,19 @@
           <%= f.fields_for :inventories do |inventory_form| %>
             <div class="form-stock-section nested-fields">
               <div class="form-group">
+
                 <div class="label-box">部位</div>
-                <%= inventory_form.text_field :part, class: "form-input", placeholder: "例: ロース" %>
+                <%= inventory_form.select :part,
+                    options_for_select(
+                      [["ロース", "ロース"], ["シキンボ", "シキンボ"],
+                      ["シンタマ", "シンタマ"], ["ランプ", "ランプ"],
+                      ["ウチモモ", "ウチモモ"], ["ソトモモ", "ソトモモ"],
+                      ["バラ", "バラ"], ["スネ", "スネ"],
+                      ["マエアシ", "マエアシ"], ["ネック", "ネック"],
+                      ["ヒレ", "ヒレ"], ["タン", "タン"]]
+                      ),
+                            { prompt: "選択してください" },
+                            { class: "form-input" } %>
               </div>
               <div class="form-group">
                 <div class="label-box">重量 (kg)</div>
@@ -129,15 +166,30 @@
   <div class="form-stock-section nested-fields">
     <div class="form-group">
       <div class="label-box">部位</div>
-      <input type="text" name="individual[inventories_attributes][__INDEX__][part]" class="form-input" placeholder="例: モモ">
+      
+      <select name="individual[inventories_attributes][__INDEX__][part]" class="form-input">
+        <option value="">選択してください</option>
+        <option value="ロース">ロース</option>
+        <option value="シキンボ">シキンボ</option>
+        <option value="シンタマ">シンタマ</option>
+        <option value="ランプ">ランプ</option>
+        <option value="ウチモモ">ウチモモ</option>
+        <option value="ソトモモ">ソトモモ</option>
+        <option value="バラ">バラ</option>
+        <option value="スネ">スネ</option>
+        <option value="マエアシ">マエアシ</option>
+        <option value="ネック">ネック</option>
+        <option value="ヒレ">ヒレ</option>
+        <option value="タン">タン</option>
+      </select>
+
     </div>
     <div class="form-group">
       <div class="label-box">重量 (kg)</div>
       <input type="number" name="individual[inventories_attributes][__INDEX__][weight]" class="form-input" placeholder="例: 2.0" step="0.1">
     </div>
-    <%# 新規追加時には _destroy は不要だが、削除ボタンでこの要素ごと消す %>
-    <button type="button" class="remove-part-button btn-remove">
-    <i class="fa-solid fa-trash"></i>
+    <button type="button" class="remove-part-button btn-remove" title="この部位を削除">
+      <i class="fa-solid fa-trash"></i>
     </button>
     <hr>
   </div>

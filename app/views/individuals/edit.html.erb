@@ -125,7 +125,23 @@
   <div class="form-stock-section nested-fields">
     <div class="form-group">
       <div class="label-box">部位</div>
-      <input type="text" name="individual[inventories_attributes][__INDEX__][part]" class="form-input" placeholder="例: モモ">
+      
+      <select name="individual[inventories_attributes][__INDEX__][part]" class="form-input">
+        <option value="">選択してください</option>
+        <option value="ロース">ロース</option>
+        <option value="シキンボ">シキンボ</option>
+        <option value="シンタマ">シンタマ</option>
+        <option value="ランプ">ランプ</option>
+        <option value="ウチモモ">ウチモモ</option>
+        <option value="ソトモモ">ソトモモ</option>
+        <option value="バラ">バラ</option>
+        <option value="スネ">スネ</option>
+        <option value="マエアシ">マエアシ</option>
+        <option value="ネック">ネック</option>
+        <option value="ヒレ">ヒレ</option>
+        <option value="タン">タン</option>
+      </select>
+
     </div>
     <div class="form-group">
       <div class="label-box">重量 (kg)</div>
@@ -137,4 +153,5 @@
     <hr>
   </div>
 </template>
+
 
