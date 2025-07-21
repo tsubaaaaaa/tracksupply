@@ -47,7 +47,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_21_092056) do
     t.string "hit_area"
     t.string "damaged_parts"
     t.string "blood_letting"
-    t.boolean "cooling"
+    t.string "cooling"
     t.string "travel_time"
     t.index ["user_id"], name: "index_individuals_on_user_id"
   end

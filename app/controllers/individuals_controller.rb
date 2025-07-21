@@ -62,18 +62,23 @@ class IndividualsController < ApplicationController
   private
   def individual_params
     params.require(:individual).permit(
-      :identification_id,
-      :user_id,
-      :hunt_date,
-      :origin,
-      :species,
-      :method,
-      :age_in_months,
-      :weight,
-      :disassembling_date,
-      :processing_date,
-      :processing_facility,
-      :processor_name,
+      :identification_id, # 個体識別ID
+      :user_id, # ユーザーID
+      :hunt_date, # 狩猟日
+      :origin, # 産地
+      :species, # 種類
+      :method,  # 捕獲方法
+      :age_in_months, # 月齢
+      :weight, # 体重
+      :disassembling_date, # 解体日
+      :processing_date, # 処理日
+      :processing_facility, # 処理施設
+      :processor_name, # 処理者名
+      :hit_area, # ヒットエリア
+      :damaged_parts, # 損傷部位
+      :blood_letting, # 放血の有無
+      :cooling, # 運搬時冷蔵の有無
+      :travel_time, # 運搬時間
       
       inventories_attributes: [:id, :part, :weight, :_destroy]
 

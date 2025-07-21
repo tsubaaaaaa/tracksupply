@@ -40,6 +40,26 @@
       </div>
 
       <div class="detail-group">
+        <div class="label-box">被弾部位</div>
+        <div class="displayed-value"><%= @individual.hit_area %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">損傷有無</div>
+        <div class="displayed-value"><%= @individual.damaged_parts %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">放血の有無</div>
+        <div class="displayed-value"><%= @individual.blood_letting %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">運搬時冷蔵の有無</div>
+        <div class="displayed-value"><%= @individual.cooling %></div>
+      </div>
+      
+      <div class="detail-group">
         <div class="label-box">月齢 (ヶ月)</div>
         <div class="displayed-value"><%= @individual.age_in_months %></div>
       </div>

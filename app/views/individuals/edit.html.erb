@@ -52,8 +52,40 @@
                 <%= f.text_field :species, class: "form-input" %>
             </div>
             <div class="form-group">
-                <div class="label-box">捕獲方法</div>
-                <%= f.text_field :method, class: "form-input"%>
+            <div class="label-box">捕獲方法</div>
+              <%= f.select :method, 
+                          options_for_select([
+                          ["銃", "銃"], ["わな（くくり）", "わな（くくり）"],
+                          ["わな（かこい）", "わな（かこい）"], ["その他", "その他"]
+                          ], f.object.method), 
+                          { prompt: "選択してください" }, 
+                          { class: "form-input" } %>
+            </div>
+            <div class="form-group">
+                <div class="label-box">被弾部位</div>
+                <%= f.text_field :hit_area, class: "form-input" %>
+            </div>
+            <div class="form-group">
+                <div class="label-box">損傷有無</div>
+                <%= f.text_field :damaged_parts, class: "form-input" %>
+            </div>
+            <div class="form-group">
+              <div class="label-box">放血の有無</div>
+              <%= f.select :blood_letting, 
+                          options_for_select([
+                            ["有", "有"], ["無", "無"]
+                            ], f.object.blood_letting), 
+                          { prompt: "選択してください" }, 
+                          { class: "form-input" } %>
+            </div>
+            <div class="form-group">
+              <div class="label-box">運搬時冷蔵の有無</div>
+              <%= f.select :cooling, 
+                          options_for_select([
+                            ["有", "`有"], ["無", "無"]
+                            ], f.object.cooling), 
+                          { prompt: "選択してください" }, 
+                          { class: "form-input" } %>
             </div>
             <div class="form-group">
                 <div class="label-box">月齢 (ヶ月)</div> <%# ラベルに単位を追加 %>

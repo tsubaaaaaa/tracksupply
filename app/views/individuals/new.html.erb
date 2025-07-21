@@ -50,8 +50,8 @@
           <div class="form-group">
             <div class="label-box">捕獲方法</div>
             <%= f.select :method, 
-                        options_for_select([["銃", "gan"], ["わな（くくり）", "wana_kukuri"],
-                         ["わな（かこい）", "wana_kakoi"], ["その他", "other"]]), 
+                        options_for_select([["銃", "銃"], ["わな（くくり）", "わな（くくり）"],
+                         ["わな（かこい）", "わな（かこい）"], ["その他", "その他"]]), 
                         { prompt: "選択してください" }, 
                         { class: "form-input" } %>
           </div>
@@ -66,14 +66,14 @@
           <div class="form-group">
             <div class="label-box">放血の有無</div>
             <%= f.select :blood_letting, 
-                        options_for_select([["有", "あり"], ["無", "なし"]]), 
+                        options_for_select([["有", "`有"], ["無", "無"]]), 
                         { prompt: "選択してください" }, 
                         { class: "form-input" } %>
           </div>
           <div class="form-group">
             <div class="label-box">運搬時冷蔵の有無</div>
             <%= f.select :cooling, 
-                        options_for_select([["有", "あり"], ["無", "なし"]]), 
+                        options_for_select([["有", "`有"], ["無", "無"]]), 
                         { prompt: "選択してください" }, 
                         { class: "form-input" } %>
           </div>
