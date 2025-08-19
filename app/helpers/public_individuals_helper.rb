@@ -1,0 +1,2 @@
+module PublicIndividualsHelper
+end

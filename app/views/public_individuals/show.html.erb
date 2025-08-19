@@ -1,0 +1,93 @@
+<%# app/views/individuals/show.html.erb (または詳細表示用のビューファイル) %>
+<div class="content-split-wrapper">
+  <div class="content-split-left">
+
+    <header class="content-header">
+      <h1>個体情報詳細</h1> <%# タイトルを変更 %>
+    </header>
+
+    <div class="details-section"> <%# form-section から名称変更 (任意) %>
+      <%# --- 個体情報フィールド --- %>
+      <div class="detail-group"> <%# form-group から名称変更 (任意) %>
+        <div class="label-box">識別番号</div>
+        <div class="displayed-value"><%= @individual.identification_id %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">捕獲者</div>
+        <%# Userモデルにname属性などがある場合 %>
+        <div class="displayed-value"><%= @individual.user.try(:name) || @individual.user_id %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">捕獲日</div>
+        <div class="displayed-value"><%= @individual.hunt_date ? @individual.hunt_date.strftime("%Y-%m-%d") : "未登録" %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">捕獲地</div>
+        <div class="displayed-value"><%= @individual.origin %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">種類</div>
+        <div class="displayed-value"><%= @individual.species %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">捕獲方法</div>
+        <div class="displayed-value"><%= @individual.method %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">被弾部位</div>
+        <div class="displayed-value"><%= @individual.hit_area %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">損傷有無</div>
+        <div class="displayed-value"><%= @individual.damaged_parts %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">放血の有無</div>
+        <div class="displayed-value"><%= @individual.blood_letting %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">運搬時冷蔵の有無</div>
+        <div class="displayed-value"><%= @individual.cooling %></div>
+      </div>
+      
+      <div class="detail-group">
+        <div class="label-box">月齢 (ヶ月)</div>
+        <div class="displayed-value"><%= @individual.age_in_months %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">重量 (kg)</div>
+        <div class="displayed-value"><%= @individual.weight %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">解体日</div>
+        <div class="displayed-value"><%= @individual.disassembling_date ? @individual.disassembling_date.strftime("%Y-%m-%d") : "未登録" %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">加工日</div>
+        <div class="displayed-value"><%= @individual.processing_date ? @individual.processing_date.strftime("%Y-%m-%d") : "未登録" %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">加工施設</div>
+        <div class="displayed-value"><%= @individual.processing_facility %></div>
+      </div>
+
+      <div class="detail-group">
+        <div class="label-box">加工者</div>
+        <div class="displayed-value"><%= @individual.processor_name %></div>
+      </div>
+    </div>
+  </div>
+ 

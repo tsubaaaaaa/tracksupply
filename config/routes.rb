@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'public_individuals/show'
 
 
   devise_for :users
@@ -26,6 +27,10 @@ Rails.application.routes.draw do
       get :inventories
     end
   end
+
+  # /t/ランダムなトークン のようなURLでアクセスできるようにする
+  get '/t/:token', to: 'public_individuals#show', as: 'public_individual'
+
 
   #在庫情報のルーティング
   resources :inventories 

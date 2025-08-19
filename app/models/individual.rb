@@ -13,6 +13,21 @@ class Individual < ApplicationRecord
     user.name
   end
   
+  #トークンを生成
+  before_create :generate_token
+
+  private
+
+  def generate_token
+    # self.token = SecureRandom.hex(16) # 32文字のランダムな16進数文字列を生成
+    # もし、生成したトークンが偶然にも既に使用されていたら、再度生成する
+    self.token = loop do
+      random_token = SecureRandom.hex(16)
+      break random_token unless Individual.exists?(token: random_token)
+    end
+  end
+
+  
   #keyword
   scope :search_by_keyword, ->(keyword) {
     return all if keyword.blank?

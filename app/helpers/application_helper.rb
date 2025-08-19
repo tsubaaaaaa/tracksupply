@@ -5,22 +5,18 @@ module ApplicationHelper
   require "chunky_png"
 
   def qrcode(individual)
-      Rails.logger.debug "qrcode method received: #{individual.inspect}" # デバッグ出力
+    # individual とその token が存在することを確認
+    return nil unless individual&.token
 
-      unless individual.is_a?(Individual)
-          Rails.logger.error "❌ qrcode method received invalid object: #{individual.class}"
-          return nil
-      end
+    # public_individual_url ヘルパーを使って、トークン付きのURLを生成
+    # host の設定が config/environments/development.rb などでされていることが前提
+    qr_url = public_individual_url(token: individual.token)
 
-      # トークンが未設定の場合は生成して保存
-    
-      base_url = Rails.application.routes.url_helpers.root_url(host: Rails.application.routes.default_url_options[:host])
-      qr_url = "#{base_url}individuals/#{individual.id}"
-      
-      qrcode = RQRCode::QRCode.new(qr_url)
-      qrcode.as_png(
+    qrcode = RQRCode::QRCode.new(qr_url)
+    qrcode.as_png(
       border_modules: 0,
-      size: 150).to_data_url
+      size: 300
+    ).to_data_url
   end
     
 end
