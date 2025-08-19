@@ -38,7 +38,7 @@
           <p class="indiv-card-line">
             <i class="fas fa-inbox"></i>
             <%# 紐づくinventoriesの数を表示 %>
-            <%= inventories_count(i) %> <%# 不正な </span> を削除 %>
+            <%= i.inventories.size %> <%# 不正な </span> を削除 %>
           </p>     
       </div> <%# class="indiv-card-wrapper" %>    
     </div> <%# class="indiv-card clickable-card" %>

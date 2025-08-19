@@ -3,6 +3,7 @@
 /*
  *= require_self
  *= require homes/index
+ *= require devises/edit
  *= require individuals/index
  *= require individuals/form
   *= require shipments/new
@@ -46,8 +47,9 @@ body {
     z-index: 1000; /* 他の要素より前面に表示 */
   }
 
-  .sidebar .logo {
+  .sidebar a.logo {
     font-size: 1.6em; /* ロゴのサイズ */
+    text-decoration: none;
     font-weight: bold;
     margin-bottom: 35px; /* ロゴ下のマージン */
     color: #3a3a3a;

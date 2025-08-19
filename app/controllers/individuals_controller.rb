@@ -1,13 +1,22 @@
 class IndividualsController < ApplicationController
 
-  def index
-    @individuals = Individual.where(user_id: current_user.id)
-    #@individuals = Individual.includes(:inventories)
-                              #.where(user: current_user)
-                             # .order(updated_at: :desc
-                             
-    
-  end
+    def index
+      # ログインユーザーの個体情報をベースに準備
+      @individuals = current_user.individuals.includes(:inventories)
+
+      # もし検索キーワードがあれば、search_by_keywordスコープで絞り込む
+      if params[:keyword].present?
+        @individuals = @individuals.search_by_keyword(params[:keyword])
+      end
+
+      # 最後に、関連情報の読み込みと並び替えをまとめて行う
+      @individuals = @individuals.order(created_at: :desc)
+
+      # ★★★ 最後に、preloadで関連情報を読み込む ★★★
+      # preloadは、検索で使ったjoinsとは干渉せずに、
+      # 別のクエリでinventoriesの情報を効率的に取得してくれます。
+      @individuals = @individuals.preload(:inventories)
+    end
 
   def show
     @individual = Individual.find(params[:id])

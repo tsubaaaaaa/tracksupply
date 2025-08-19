@@ -1,0 +1,127 @@
+/* --- Deviseページの基本コンテナ --- */
+.devise-container {
+  max-width: 500px; /* フォームの最大幅 */
+  margin: 40px auto; /* 上下左右の余白と中央寄せ */
+  padding: 20px;
+}
+
+/* --- フォームを囲むカード --- */
+.devise-form-card {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+}
+
+.devise-form-card h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+/* --- フォームの各入力項目 --- */
+.field {
+  margin-bottom: 20px;
+}
+
+.field label {
+  display: block;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.field i { /* 補足説明テキスト (italic) */
+  font-size: 0.85em;
+  color: #777;
+}
+
+.field em { /* パスワードの長さなどの注釈 */
+  font-size: 0.85em;
+  color: #777;
+}
+
+/* --- 入力欄のスタイル (既存のフォームと共通化) --- */
+.form-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 1em;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+  outline: none;
+}
+
+/* --- ボタンエリア --- */
+.actions {
+  margin-top: 30px;
+  text-align: center; /* ボタンを中央に */
+}
+
+/* --- ボタンの基本スタイル (既存スタイルを流用) --- */
+.btn {
+  display: inline-block;
+  padding: 12px 25px;
+  font-size: 1em;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary {
+  background-color: #3498db;
+  color: white;
+  width: 100%; /* ボタン幅をフォームいっぱいに */
+}
+.btn-primary:hover {
+  background-color: #2980b9;
+}
+
+/* --- アカウント削除セクション --- */
+.cancel-account-section {
+  background-color: #fff;
+  padding: 25px 40px;
+  border-radius: 12px;
+  border: 1px solid #e74c3c; /* 危険な操作なので赤い枠線 */
+  text-align: center;
+}
+
+.cancel-account-section h3 {
+  margin-top: 0;
+  color: #e74c3c;
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+  color: white;
+}
+.btn-danger:hover {
+  background-color: #c0392b;
+}
+
+/* --- 戻るリンクなど --- */
+.devise-links {
+  text-align: center;
+  margin-top: 20px;
+}
+.devise-links a {
+  color: #777;
+  text-decoration: none;
+}
+.devise-links a:hover {
+  text-decoration: underline;
+}
