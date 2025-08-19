@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   resources :individuals, only: [] do
     member do
       get :inventories
+      get :labels
     end
   end
 
@@ -36,7 +37,11 @@ Rails.application.routes.draw do
   resources :inventories 
 
   #出荷情報のルーティング
-  resources :shipments 
+  resources :shipments do
+    member do
+      get :labels # /shipments/:id/labels のようにアクセスできる
+    end
+  end
 
  
 

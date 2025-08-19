@@ -22,6 +22,12 @@ class IndividualsController < ApplicationController
     @individual = Individual.find(params[:id])
   end
 
+  #labelsアクションを追加
+  def labels
+    @individual = Individual.includes(:inventories).find(params[:id])
+    render layout: 'printable' # サイドバーなどが表示されない印刷用レイアウトを使用
+  end
+
   def new
     @individual = Individual.new
     @individual.inventories.build # 新しいインベントリを作成

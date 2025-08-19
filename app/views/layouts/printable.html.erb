@@ -1,0 +1,40 @@
+<%# app/views/layouts/printable.html.erb %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ラベル印刷 - Track Supply</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <style>
+      /* 印刷時専用のスタイル */
+      @media print {
+        @page {
+          size: A4; /* 用紙サイズをA4に指定 */
+          margin: 0;  /* プリンターのデフォルトマージンをなくす */
+        }
+        body {
+          -webkit-print-color-adjust: exact; /* 背景色や色が印刷されるように */
+          print-color-adjust: exact;
+          margin: 0; /* ページ全体の余白をなくす */
+          padding: 0; /* ページ全体の余白をなくす */
+        }
+        .printable-page {
+          border: none !important; /* 画面表示用の枠線は印刷しない */
+          margin: 0 !important;
+          padding: 0 !important;
+          box-shadow: none !important;
+          width: 100%; /* ページ全体を使う */
+          height: 100%; /* ページ全体を使う */
+        }
+        .no-print {
+          display: none; /* 「印刷」ボタンなどを非表示に */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>

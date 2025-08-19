@@ -4,6 +4,10 @@ module ApplicationHelper
   require "rqrcode_png"
   require "chunky_png"
 
+  def display_date(date, placeholder = "未登録")
+    date.present? ? date.strftime("%Y-%m-%d") : placeholder
+  end
+
   def qrcode(individual)
     # individual とその token が存在することを確認
     return nil unless individual&.token

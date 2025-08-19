@@ -1,0 +1,115 @@
+<%# app/views/individuals/labels.html.erb %>
+<div class="no-print" style="padding: 20px; text-align: center; background-color: #f0f0f0;">
+  <button onclick="window.print();" class="btn">このページを印刷</button>
+  <%= link_to '個体情報に戻る', individuals_path(@individual), class: 'btn' %>
+</div>
+
+<div class="printable-area">
+  <%# A4用紙1枚ごとにループさせる (10枚ごとなど) %>
+  <% @individual.inventories.each_slice(10) do |inventories_on_page| %>
+    <div class="printable-page">
+      <% inventories_on_page.each do |inventory| %>
+        <div class="label-cell">
+            <div class="label-card">
+            <div class="label-header">
+                <h3 class="part-name"><%= inventory.part %></h3>
+                <p class="individual-id">個体ID: <%= inventory.individual.identification_id %></p>
+            </div>
+            <div class="label-body">
+                <div class="label-details">
+                <p><strong>重量:</strong> <%= inventory.weight %> kg</p>
+                <p><strong>加工日:</strong> <%= display_date(inventory.individual.processing_date) %></p>
+                <p><strong>加工者:</strong> <%= inventory.individual.processor_name %></p>
+                </div>
+                <div class="qr-code-wrapper">
+                <%= image_tag qrcode(inventory.individual) %>
+                </div>
+            </div>
+            </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<%# ラベル用のCSS (application.css などに追加) %>
+<style>
+  .printable-area {
+    padding: 0px; // 印刷時の余白をなくす
+    background-color: #e0e0e0; /* 画面上でページを見やすくするための背景 */
+  }
+  .printable-page {
+    width: 210mm; /* A4横幅 */
+    height: 297mm; /* A4縦幅 */
+    margin: 20px auto;
+    padding: 0mm; /* プリンターの余白を考慮 */
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2列 */
+    grid-template-rows: repeat(5, 1fr);    /* 5行 */
+    gap: 0; /* ラベル間の隙間 */
+    box-sizing: border-box;
+  }
+  .label-cell {
+    /* ★★★ 修正箇所 ★★★ */
+    border-top: 1px dashed #aaa;    /* 上下の切り取り線は点線 */
+    border-bottom: 1px dashed #aaa;
+    border-left: 1px dashed #aaa;   /* 左右の切り取り線は破線 */
+    border-right: 1px dashed #aaa;
+    padding: 2.5mm; /* 切り取り線とカードの間の余白 */
+    box-sizing: border-box;
+    display: flex;
+  }
+  .label-card {
+    border: 1px solid #333;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    page-break-inside: avoid; /* 印刷時にラベルが途中で改ページされないように */
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+  }
+  .label-header {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 5px;
+  }
+  .label-header h3, .label-header p {
+    margin: 0 0 5px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .part-name {
+    font-size: 1.5em;
+  }
+  .individual-id {
+    font-size: 1em;
+  }
+  .label-body {
+    display: flex;
+    flex-grow: 1;
+    gap: 10px;
+    align-items: center; /* ★ 垂直方向の中央揃え */
+  }
+  .qr-code-wrapper {
+    flex: 1; /* ★ 利用可能なスペースの半分を使う */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .qr-code-wrapper img {
+    width: 120px;
+    height: 120px;
+  }
+  .label-details {
+    flex: 1; /* ★ 利用可能なスペースのもう半分を使う */
+    flex-direction: column;
+  }
+  .label-details p {
+    margin: 0 0 3px 0;
+    font-size: 0.7em;
+  }
+</style>

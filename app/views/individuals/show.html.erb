@@ -96,6 +96,7 @@
         </div>
         <div class="action-buttons">
           <%= link_to '編集', edit_individual_path(@individual), class:"btn btn-secondary" %>
+          <%= link_to 'ラベル印刷', labels_individual_path(@individual), class: "btn btn-secondary" %>
           <%= button_to '削除', @individual,
                         method: :delete,
                         class: 'btn btn-danger',

@@ -7,27 +7,31 @@ class ShipmentsController < ApplicationController
     #                     .order(updated_at: :desc) 
   end
 
-def create
-  # shipment_params で顧客名、出荷日、そして選択された在庫ID (inventory_ids) を一度に受け取る
-  @shipment = current_user.shipments.build(shipment_params)
+  def create
+    # shipment_params で顧客名、出荷日、そして選択された在庫ID (inventory_ids) を一度に受け取る
+    @shipment = current_user.shipments.build(shipment_params)
 
-  if @shipment.save
-    # ↑ この .save が成功した時点で、shipment と inventories の関連付けが
-    #   中間テーブル (shipment_inventories) に自動的に保存されます！
+    if @shipment.save
+      # ↑ この .save が成功した時点で、shipment と inventories の関連付けが
+      #   中間テーブル (shipment_inventories) に自動的に保存されます！
 
-    # 在庫のステータス更新処理
-    # 関連付けられた在庫 (inventory_ids) のステータスを 'shipped' に一括更新
-    Inventory.where(id: @shipment.inventory_ids).update_all(status: 'shipped')
-    
-    # 成功したら、作成された出荷の詳細ページにリダイレクト
-    redirect_to @shipment, notice: '出荷情報を登録しました！'
-  else
-    # 保存に失敗したら、newテンプレートを再表示するために必要な変数を準備
-    @individuals = Individual.order(:identification_id)
-    render :new, status: :unprocessable_entity
+      # 在庫のステータス更新処理
+      # 関連付けられた在庫 (inventory_ids) のステータスを 'shipped' に一括更新
+      Inventory.where(id: @shipment.inventory_ids).update_all(status: 'shipped')
+      
+      # 成功したら、作成された出荷の詳細ページにリダイレクト
+      redirect_to @shipment, notice: '出荷情報を登録しました！'
+    else
+      # 保存に失敗したら、newテンプレートを再表示するために必要な変数を準備
+      @individuals = Individual.order(:identification_id)
+      render :new, status: :unprocessable_entity
+    end
   end
-end
 
+  def labels
+    @shipment = Shipment.includes(inventories: :individual).find(params[:id])
+    render layout: 'printable' # サイドバーなどが表示されない印刷用レイアウトを使用
+  end
 
 
   def new
