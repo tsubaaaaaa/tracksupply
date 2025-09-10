@@ -90,6 +90,36 @@ body {
     height: 100vh; /* 高さを画面全体に */
   }
 
+/* 検索フォーム全体を囲むコンテナ */
+  .search-form {
+    margin-bottom: 20px; /* フォーム下のマージン */
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center; /* 垂直方向に中央揃え */
+    gap: 10px; /* フォーム要素間の隙間 */
+    max-width: 500px; /* 検索フォームが広がりすぎないように最大幅を設定 (任意) */
+  }
+
+  /* テキスト入力欄のスタイル */
+  .search-input {
+    flex-grow: 1; /* ★ これで入力欄が利用可能なスペースを全て使うようになります */
+    padding: 10px 15px;
+    font-size: 1em;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    color: #333;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  /* 入力欄がフォーカスされたときのスタイル */
+  .search-input:focus {
+    border-color: #3498db; /* 例: アプリのテーマカラー */
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    outline: none;
+  }
+
   .footer {
     background-color: #fff; /* フッター背景色 */
     padding: 5px 10px; /* フッターのパディング */

@@ -33,8 +33,16 @@ Rails.application.routes.draw do
   get '/t/:token', to: 'public_individuals#show', as: 'public_individual'
 
 
+
   #在庫情報のルーティング
+
   resources :inventories 
+
+  resources :inventories, only: [] do
+    collection do
+      get :find_by_barcode # /inventories/find_by_barcode のようにアクセスできる
+    end
+  end
 
   #出荷情報のルーティング
   resources :shipments do

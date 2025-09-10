@@ -11,26 +11,32 @@
       <% inventories_on_page.each do |inventory| %>
         <div class="label-cell">
             <div class="label-card">
-            <div class="label-header">
-                <h3 class="part-name"><%= inventory.part %></h3>
-                <p class="individual-id">個体ID: <%= inventory.individual.identification_id %></p>
-            </div>
-            <div class="label-body">
-                <div class="label-details">
-                    <p><strong>部位:</strong> <%= inventory.part %></p>
-                    <p><strong>捕獲地:</strong> <%= inventory.individual.origin %></p>
-                    <p><strong>重量:</strong> <%= inventory.weight %> g</p>
-                    <p><strong>賞味期限:</strong> YYYY.MM.DD </p>
-                    <p><strong>加工日:</strong> <%= display_date(inventory.individual.processing_date) %></p>
-                    <p><strong>加工者:</strong> <%= inventory.individual.processor_name %></p>
+              <div class="label-header">
+                <div class="header-text">
+                  <h3 class="part-name"><%= @individual.species %><%= inventory.part %></h3> <%# 種類と部位名を表示 例：エゾ鹿ロース%>
+                  <p class="individual-id">個体ID: <%= inventory.individual.identification_id %></p>
                 </div>
-                <div class="heating-info-wrapper">
-                    <span class="heating-tag">加熱用</span>
+                <div class="barcode-area">
+                  <%= image_tag barcode(inventory), class: 'barcode-img' %>
+                  <p class="inventory-id-text">在庫ID: <%= inventory.id %></p>
                 </div>
-                <div class="qr-code-wrapper">
-                <%= image_tag qrcode(inventory.individual) %>
-                </div>
-            </div>
+              </div>
+              <div class="label-body">
+                  <div class="label-details">
+                      <p><strong>部位:</strong> <%= inventory.part %></p>
+                      <p><strong>捕獲地:</strong> <%= inventory.individual.origin %></p>
+                      <p><strong>重量:</strong> <%= inventory.weight %> g</p>
+                      <p><strong>賞味期限:</strong> YYYY.MM.DD </p>
+                      <p><strong>加工日:</strong> <%= display_date(inventory.individual.processing_date) %></p>
+                      <p><strong>加工者:</strong> <%= inventory.individual.processor_name %></p>
+                  </div>
+                  <div class="heating-info-wrapper">
+                      <span class="heating-tag">加熱用</span>
+                  </div>
+                  <div class="qr-code-wrapper">
+                  <%= image_tag qrcode(inventory.individual) %>
+                  </div>
+              </div>
             </div>
         </div>
       <% end %>
@@ -80,8 +86,14 @@
     box-sizing: border-box;
   }
   .label-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* ★ 垂直方向の中央揃え */
+    width: 100% ;
     border-bottom: 1px solid #ccc;
     margin-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
   }
   .label-header h3, .label-header p {
     margin: 0 0 5px 0;
@@ -94,6 +106,21 @@
   }
   .individual-id {
     font-size: 1em;
+  }
+  .barcode-area {
+    text-align: center;
+    flex-shrink: 0;
+    max-width: 50%;
+  }
+  .barcode-img {
+    height: 30px; /* バーコードの高さ */
+    width: 100%;
+    display: block;
+  }
+  .inventory-id-text {
+    font-size: 0.8em;
+    letter-spacing: 1px;
+    margin-top: 0;
   }
   .label-body {
     display: flex;
@@ -121,7 +148,7 @@
   }
   .heating-info-wrapper {
     text-align: center;
-    margin-bottom: auto;
+    margin-bottom: autorail;
     padding-top: 5px;
   }
   .heating-tag {

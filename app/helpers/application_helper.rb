@@ -4,8 +4,22 @@ module ApplicationHelper
   require "rqrcode_png"
   require "chunky_png"
 
+  #バーコードgem
+  require "barby"
+  require "barby/barcode/code_128"
+  require "barby/outputter/png_outputter"
+
   def display_date(date, placeholder = "未登録")
     date.present? ? date.strftime("%Y-%m-%d") : placeholder
+  end
+
+  #バーコード出力
+  def barcode(inventory)
+    # inventory とその barcode が存在することを確認
+    return nil unless inventory&.id
+    # Barby を使ってバーコードを生成
+    barcode = Barby::Code128B.new(inventory.id.to_s)
+    "data:image/png;base64,#{Base64.encode64(barcode.to_png(height: 70, width: 300, margin: 5))}"
   end
 
   def qrcode(individual)

@@ -22,6 +22,9 @@ gem "pg"
 #QRコード生成
 gem "rqrcode"
 gem "rqrcode_png"
+
+#バーコード生成
+gem "barby"
 gem "chunky_png"
 
 #ページネーション
