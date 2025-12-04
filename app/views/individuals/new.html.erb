@@ -33,7 +33,11 @@
           </div>
           <div class="form-group">
             <div class="label-box">捕獲者</div>
-            <%= f.text_field :user_id, value: current_user.id, placeholder: current_user.name, readonly: true, class: "form-input" %>
+            <%= f.hidden_field :user_id, value: current_user.id %>
+
+              <%# 2. 画面に表示される捕獲者名 (送信はしないので name属性は不要か、ダミーにする) %>
+              <%# disabled: true にすると送信されませんが、paramsに含まれないので安心です %>
+            <%= text_field_tag :user_name_display, current_user.name, readonly: true, class: "form-input", disabled: true %>      
           </div>
           <div class="form-group">
             <div class="label-box">捕獲日</div>
@@ -177,7 +181,7 @@
         <option value="ソトモモ">ソトモモ</option>
         <option value="バラ">バラ</option>
         <option value="スネ">スネ</option>
-        <option value="マエアシ">マエアシ</option>
+        <option value="ウデ">ウデ</option>
         <option value="ネック">ネック</option>
         <option value="ヒレ">ヒレ</option>
         <option value="タン">タン</option>
@@ -185,7 +189,7 @@
 
     </div>
     <div class="form-group">
-      <div class="label-box">重量 (kg)</div>
+      <div class="label-box">重量 (g)</div>
       <input type="number" name="individual[inventories_attributes][__INDEX__][weight]" class="form-input" placeholder="例: 2.0" step="0.1">
     </div>
     <button type="button" class="remove-part-button btn-remove" title="この部位を削除">
