@@ -111,7 +111,7 @@ document.addEventListener('turbo:load', () => {
     itemDiv.id = `inventory_item_${item.id}`;
     itemDiv.classList.add('scanned-item');
     itemDiv.innerHTML = `
-      <span>${item.part} (${item.weight} kg) - ID: ${item.id}</span>
+      <span>${item.part} (${item.weight} g) - ID: ${item.id}</span>
       <input type="hidden" name="shipment[inventory_ids][]" value="${item.id}">
       <button type="button" class="remove-scanned-item">&times;</button>
     `;

@@ -6,25 +6,37 @@
 
 <div class="printable-area">
   <%# A4用紙1枚ごとにループさせる (10枚ごとなど) %>
-  <% @shipment.inventories.each_slice(10) do |inventories_on_page| %>
+  <% @individual.inventories.each_slice(10) do |inventories_on_page| %>
     <div class="printable-page">
       <% inventories_on_page.each do |inventory| %>
         <div class="label-cell">
             <div class="label-card">
-            <div class="label-header">
-                <h3 class="part-name"><%= inventory.part %></h3>
-                <p class="individual-id">個体ID: <%= inventory.individual.identification_id %></p>
-            </div>
-            <div class="label-body">
-                <div class="qr-code-wrapper">
-                
+              <div class="label-header">
+                <div class="header-text">
+                  <h3 class="part-name"><%= @individual.species %><%= inventory.part %></h3> <%# 種類と部位名を表示 例：エゾ鹿ロース%>
+                  <p class="individual-id">個体ID: <%= inventory.individual.identification_id %></p>
                 </div>
-                <div class="label-details">
-                <p><strong>重量:</strong> <%= inventory.weight %> kg</p>
-                
-                <p><strong>加工者:</strong> <%= inventory.individual.processor_name %></p>
+                <div class="barcode-area">
+                  <%= image_tag barcode(inventory), class: 'barcode-img' %>
+                  <p class="inventory-id-text">在庫ID: <%= inventory.id %></p>
                 </div>
-            </div>
+              </div>
+              <div class="label-body">
+                  <div class="label-details">
+                      <p><strong>部位:</strong> <%= inventory.part %></p>
+                      <p><strong>捕獲地:</strong> <%= inventory.individual.origin %></p>
+                      <p><strong>重量:</strong> <%= inventory.weight %> g</p>
+                      <p><strong>賞味期限:</strong> YYYY.MM.DD </p>
+                      <p><strong>加工日:</strong> <%= display_date(inventory.individual.processing_date) %></p>
+                      <p><strong>加工者:</strong> <%= inventory.individual.processor_name %></p>
+                  </div>
+                  <div class="heating-info-wrapper">
+                      <span class="heating-tag">加熱用</span>
+                  </div>
+                  <div class="qr-code-wrapper">
+                  <%= image_tag qrcode(inventory.individual) %>
+                  </div>
+              </div>
             </div>
         </div>
       <% end %>
