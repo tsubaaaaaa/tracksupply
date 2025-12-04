@@ -73,7 +73,7 @@
           <div class="form-group">
             <div class="label-box">運搬時冷蔵の有無</div>
             <%= f.select :cooling, 
-                        options_for_select(), 
+                        options_for_select([["", ""]]), 
                         { prompt: "選択不要" }, 
                         { class: "form-input" } %>
           </div>
