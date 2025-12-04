@@ -14,9 +14,12 @@
         </ul>
       </nav>
       <div class="user-profile-stub">
-      <if user_signed_in? %>
-        <ul>
-          <li><a href="<%=edit_user_registration_path %>">ログアウト</a></li>
-        </ul>
+        <if user_signed_in? %>
+          <nav>
+            <ul>
+              <li><a href="<%=edit_user_registration_path %>">アカウント</a></li>
+              <li><a href="<%=destroy_user_session_path %>">ログアウト</a></li>
+            </ul>
+          </nav>
       </div>
   </aside>
