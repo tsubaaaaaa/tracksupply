@@ -36,13 +36,6 @@ class ShipmentsController < ApplicationController
 
   def new
     @shipment = Shipment.new
-    # 出荷可能な在庫（例：ステータスが 'stocked' のもの）を全て取得してビューに渡す
-    
-    @available_inventories = Inventory.where(status: 'stocked')
-    @individuals = Individual.joins(:inventories)
-                         .where(user_id: current_user.id, inventories: { status: 'stocked' })
-                         .distinct
-                         .order(:identification_id)
 
   end
 

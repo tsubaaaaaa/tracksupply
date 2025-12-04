@@ -21,7 +21,7 @@ class InventoriesController < ApplicationController
 
   def find_by_barcode
     # スキャンされたバーコードから在庫を検索
-    inventory = Inventory.find_by(id: params[:barcode], status: 'stocked')
+    inventory = Inventory.find_by(id: params[:id], status: 'stocked')
     if inventory 
       render json: {
         id: inventory.id,

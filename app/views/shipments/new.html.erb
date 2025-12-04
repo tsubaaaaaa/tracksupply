@@ -42,29 +42,6 @@
   <% end %>
 </div>
 
-<template id="shipment-group-template">
-  <div class="shipment-group">
-    <div class="shipment-group-header">
-      <label>個体・部位の選択</label>
-      <button type="button" class="btn-remove-group">この商品を削除</button>
-    </div>
-    
-    <div class="form-group">
-        <%# 以前は <select ...> だった部分 %>
-        <%= label_tag :individual_selector, "識別番号" %> <%# ラベルを追加 %>
-        <%= select_tag :individual_selector,
-                        options_from_collection_for_select(@individuals, :id, :identification_id),
-                        prompt: "識別番号を選択してください",
-                        class: "form-control individual-selector" %>
-        </div>
-    
-    <div class="form-group">
-      <div class="inventory-selection-area inventory-selection-list">
-        <p class="text-muted">部位を選択してください。</p>
-      </div>
-    </div>
-  </div>
-</template>
 
 
 <script>
@@ -75,28 +52,53 @@ document.addEventListener('turbo:load', () => {
 
   if (!scannerInput || !itemsList) return;
 
-  scannerInput.addEventListener('change', (event) => {
-    const inventoryId = event.target.value;
-    if (inventoryId.trim() === '') return;
+  // ★★★ ここから修正 ★★★
+  // 'change'イベントの代わりに 'keydown' イベントを監視してEnterキーを捕捉します
+  scannerInput.addEventListener('keydown', (event) => {
+    // 押されたキーが 'Enter' (またはキーコード13) かどうかをチェック
+    if (event.key === 'Enter' || event.keyCode === 13) {
+      
+      // 1. Enterキーによるフォームの自動送信をキャンセル！
+      event.preventDefault(); 
+      
+      const inventoryId = event.target.value;
+      if (inventoryId.trim() === '') return;
 
-    fetch(`/inventories/find_by_barcode?id=${inventoryId}`)
-      .then(response => response.json())
+      // 2. 在庫情報をサーバーに問い合わせる処理を直接呼び出す
+      fetchInventoryData(inventoryId);
+    }
+  });
+
+  // サーバーに在庫情報を問い合わせる関数
+  function fetchInventoryData(id) {
+    // 2. サーバーのAPIを叩いて在庫情報を問い合わせる
+    fetch(`/inventories/find_by_barcode?id=${id}`)
+      .then(response => {
+        if (!response.ok) { // 404や500エラーもここでキャッチ
+            return response.json().then(err => { throw err; });
+        }
+        return response.json();
+      })
       .then(data => {
         if (data.error) {
+          // サーバーから { error: "..." } が返ってきた場合
           alert(data.error);
         } else {
+          // 3. 成功したら、画面のリストにアイテムを追加
           addScannedItemToList(data);
         }
-        event.target.value = ''; // 入力欄をクリア
-        event.target.focus(); // 再度フォーカス
+        scannerInput.value = ''; // 入力欄をクリア
+        scannerInput.focus(); // 再度スキャンできるようにフォーカスを戻す
       })
       .catch(err => {
         console.error(err);
-        alert('エラーが発生しました。');
-        event.target.value = '';
-        event.target.focus();
+        // fetchが失敗した場合や、サーバーがエラーJSONを返した場合
+        alert(err.error || 'エラーが発生しました。');
+        scannerInput.value = '';
+        scannerInput.focus();
       });
-  });
+  }
+  // ★★★ ここまで修正 ★★★
 
   function addScannedItemToList(item) {
     // 既に追加されていないかチェック
