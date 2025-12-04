@@ -3,17 +3,16 @@
   <button onclick="window.print();" class="btn">このページを印刷</button>
   <%= link_to '出荷詳細に戻る', shipment_path(@shipment), class: 'btn' %>
 </div>
-
 <div class="printable-area">
   <%# A4用紙1枚ごとにループさせる (10枚ごとなど) %>
-  <% @individual.inventories.each_slice(10) do |inventories_on_page| %>
+  <% @shipment.inventories.each_slice(10) do |inventories_on_page| %>
     <div class="printable-page">
       <% inventories_on_page.each do |inventory| %>
         <div class="label-cell">
             <div class="label-card">
               <div class="label-header">
                 <div class="header-text">
-                  <h3 class="part-name"><%= @individual.species %><%= inventory.part %></h3> <%# 種類と部位名を表示 例：エゾ鹿ロース%>
+                  <h3 class="part-name"><%= inventory.individual.species %><%= inventory.part %></h3> <%# 種類と部位名を表示 例：エゾ鹿ロース%>
                   <p class="individual-id">個体ID: <%= inventory.individual.identification_id %></p>
                 </div>
                 <div class="barcode-area">
@@ -62,6 +61,7 @@
     grid-template-rows: repeat(5, 1fr);    /* 5行 */
     gap: 0; /* ラベル間の隙間 */
     box-sizing: border-box;
+    background-color: #fff; /* 白背景 */
   }
   .label-cell {
     /* ★★★ 修正箇所 ★★★ */
@@ -85,8 +85,14 @@
     box-sizing: border-box;
   }
   .label-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* ★ 垂直方向の中央揃え */
+    width: 100% ;
     border-bottom: 1px solid #ccc;
     margin-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
   }
   .label-header h3, .label-header p {
     margin: 0 0 5px 0;
@@ -100,20 +106,56 @@
   .individual-id {
     font-size: 0.7em;
   }
+  .barcode-area {
+    text-align: center;
+    flex-shrink: 0;
+    max-width: 50%;
+  }
+  .barcode-img {
+    height: 30px; /* バーコードの高さ */
+    width: 100%;
+    display: block;
+  }
+  .inventory-id-text {
+    font-size: 0.8em;
+    letter-spacing: 1px;
+    margin-top: 0;
+  }
   .label-body {
     display: flex;
     flex-grow: 1;
     gap: 10px;
+    align-items: center;
   }
   .qr-code-wrapper {
-    flex-shrink: 0;
+    flex: 1; /* ★ 利用可能なスペースの半分を使う */
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .qr-code-wrapper img {
-    width: 70px;
-    height: 70px;
+    width: 120px;
+    height: 120px;
+  }
+  .label-details {
+    flex: 1; /* ★ 利用可能なスペースのもう半分を使う */
+    flex-direction: column;
   }
   .label-details p {
     margin: 0 0 3px 0;
     font-size: 0.7em;
+  }
+  .heating-info-wrapper {
+    text-align: center;
+    margin-bottom: autorail;
+    padding-top: 5px;
+  }
+  .heating-tag {
+    border: 1px solid #333;
+    padding: 2px 8px;
+    font-size: 0.9em;
+    font-weight: bold;
+    border-radius: 4px;
+    display: inline-block;
   }
 </style>

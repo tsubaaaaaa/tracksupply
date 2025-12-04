@@ -28,14 +28,8 @@
         </div>
       </div>
 
-      <div class="detail-group">
-        <div class="label-box">捕獲地</div>
-        <div class="displayed-value"><%= @shipment.user_id.try(:name) || 'N/A' %>
-        </div>
-      </div>
-
       <div class="action-buttons">
-        <%= link_to 'ラベルを印刷', labels_shipment_path(@shipment), class: 'btn btn-primary' %>
+        <%= link_to 'ラベルを印刷', labels_shipment_path(@shipment), class: 'btn btn-secondary' %>
         <%= link_to '編集', edit_shipment_path(@shipment), class: 'btn' %>
         <%= link_to '出荷一覧へ戻る', shipments_path, class: 'btn btn-secondary' %>
       </div>
@@ -59,7 +53,7 @@
                   <%= inventory.part %></div>
                 </div>
                 <div class="detail-group">
-                  <div class="label-box">重量 (kg)</div>
+                  <div class="label-box">重量 (g)</div>
                   <div class="displayed-value <%= 'shipped-label' if inventory.status == 'shipped' %>"><%= inventory.weight %></div>
                 </div>
               </div>
