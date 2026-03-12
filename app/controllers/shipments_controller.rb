@@ -5,6 +5,7 @@ class ShipmentsController < ApplicationController
     #@shipments = Shipment.includes(:inventories)
     #                     .where(user: current_user)
     #                     .order(updated_at: :desc) 
+    @inventories = Inventory.where(status: 'shipped')
   end
 
   def create

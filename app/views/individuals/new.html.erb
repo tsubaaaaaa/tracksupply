@@ -49,7 +49,7 @@
           </div>
           <div class="form-group">
             <div class="label-box">種類</div>
-            <%= f.text_field :species, class: "form-input", placeholder: "例：鹿" %>
+            <%= f.text_field :species, class: "form-input", placeholder: "例：蝦夷鹿" %>
           </div>
           <div class="form-group">
             <div class="label-box">捕獲方法</div>
@@ -98,7 +98,11 @@
             <%= f.date_field :processing_date, class: "form-input" %>
           </div>
           <div class="form-group">
-            <div class="label-box">加工施設</div>
+            <div class="label-box">賞味期限</div>
+            <%= f.date_field :expire_date, class: "form-input" %>
+          </div>
+          <div class="form-group">
+            <div class="label-box">処理施設</div>
             <%= f.text_field :processing_facility, class: "form-input", placeholder: "例: ○○食肉加工センター" %>
           </div>
           <div class="form-group">
@@ -198,3 +202,18 @@
     <hr>
   </div>
 </template>
+
+<script>
+const pDate = document.getElementById('individual_processing_date');
+const eDate = document.getElementById('individual_expire_date');
+
+pDate.addEventListener('change', (e) => {
+  // 加工日が入力され、かつ賞味期限が空の場合のみ
+  if (e.target.value && !eDate.value) {
+    const d = new Date(e.target.value);
+    d.setFullYear(d.getFullYear() + 1);
+    // YYYY-MM-DD形式にフォーマットしてセット
+    eDate.value = d.toISOString().split('T')[0];
+  }
+});
+</script>

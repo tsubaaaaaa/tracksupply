@@ -12,6 +12,17 @@ class Individual < ApplicationRecord
   def hunter_name
     user.name
   end
+
+  before_save :set_expire_date
+
+  private
+
+  def set_expire_date
+    if processing_date.present? && expire_date.blank?
+      self.expire_date = processing_date + 1.year
+    end
+  end
+
   
   #トークンを生成
   before_create :generate_token

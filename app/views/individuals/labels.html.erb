@@ -13,7 +13,7 @@
             <div class="label-card">
               <div class="label-header">
                 <div class="header-text">
-                  <h3 class="part-name"><%= @individual.species %><%= inventory.part %></h3> <%# 種類と部位名を表示 例：エゾ鹿ロース%>
+                  <h3 class="part-name"><%= @individual.species %>肉</h3> <%# 種類と部位名を表示 例：エゾ鹿ロース%>
                   <p class="individual-id">個体ID: <%= inventory.individual.identification_id %></p>
                 </div>
                 <div class="barcode-area">
@@ -26,9 +26,10 @@
                       <p><strong>部位:</strong> <%= inventory.part %></p>
                       <p><strong>捕獲地:</strong> <%= inventory.individual.origin %></p>
                       <p><strong>重量:</strong> <%= inventory.weight %> g</p>
-                      <p><strong>賞味期限:</strong> YYYY.MM.DD </p>
+                      <p><strong>賞味期限:</strong> <%= display_date(inventory.individual.expire_date) %></p>
                       <p><strong>加工日:</strong> <%= display_date(inventory.individual.processing_date) %></p>
                       <p><strong>加工者:</strong> <%= inventory.individual.processor_name %></p>
+                      <p><strong>処理施設:</strong> <%= inventory.individual.processing_facility %></p>
                   </div>
                   <div class="heating-info-wrapper">
                       <span class="heating-tag">加熱用</span>
