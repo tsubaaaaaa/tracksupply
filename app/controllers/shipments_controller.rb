@@ -47,16 +47,29 @@ class ShipmentsController < ApplicationController
 
   end
 
-  def comment
+  def edit
+    @shipment = Shipment.find(params[:id])
+    @individuals = Individual.order(:identification_id)
     
   end
 
-  private
+  def update
+    @shipment = Shipment.find(params[:id])
+    if @shipment.update(shipment_params)
+
+    end
+  end
+
+  def destroy
+    @shipment = Shipment.find(params[:id])
+    @shipment.destroy
+    redirect_to shipments_path, notice: "出荷情報を削除しました。"
+  end
+
+private
 
   def shipment_params
     # :inventory_ids は配列で受け取るので [] を付ける
     params.require(:shipment).permit(:customer, :ship_date, inventory_ids: [])
   end
-
-  
 end

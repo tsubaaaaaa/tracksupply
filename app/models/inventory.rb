@@ -2,6 +2,8 @@ class Inventory < ApplicationRecord
   belongs_to :individual
   belongs_to :user
   #belongs_to :group
+  #before_save :set_default_expire_date
+
 
   has_many :shipment_inventories, dependent: :destroy
   has_many :shipments, through: :shipment_inventories
@@ -24,6 +26,8 @@ class Inventory < ApplicationRecord
       self.user_id = individual.user_id
     end
   end
+
+
 
 
 end

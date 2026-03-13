@@ -13,10 +13,23 @@
 <% end %>
 
 <div class="indiv-container">
+
+<div class="indiv-card legend-card" style="background-color: #f8f9fa; border: 2px dashed #ccc; margin-bottom: 20px;">
+  <div class="indiv-card-wrapper">
+    <p class="indiv-card-id"><i class="fas fa-hashtag"></i> 個体識別番号</p>
+    <p class="indiv-card-line"><i class="fas fa-map-pin"></i> 捕獲地</p>
+    <p class="indiv-card-line"><i class="fas fa-paw"></i> 種類</p>
+    <p class="indiv-card-line"><i class="fas fa-calendar-alt"></i> 捕獲日</p>
+    <p class="indiv-card-line"><i class="fas fa-inbox"></i> 部位の数</p>     
+  </div>
+</div>
+
+
 <%# individualsのうち current_user が作成したものを表示 %>
   <% @individuals.each do |i| %>
     <%# カード全体をリンクにする代わりに、Railsの link_to ヘルパーを使う方法もあります %>
     <%# 例: <%= link_to individual_path(i.id), class: "card clickable-card" do %>
+    <%# 個体カードの開始 %>
     <div class="indiv-card clickable-card" onclick="location.href='<%= individual_path(i.id) %>'">
       <div class="indiv-card-wrapper">
           <p class="indiv-card-id">

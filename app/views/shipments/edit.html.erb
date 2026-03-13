@@ -1,0 +1,196 @@
+<div class="page-header">
+  <h1>出荷情報の編集 (ID: <%= @shipment.id %>)</h1>
+  <div class="header-actions">
+    <%= link_to shipment_path(@shipment), class: "btn btn-cancel"  do %>
+      <i class="fas fa-times"></i> キャンセル
+    <% end %>
+  </div>
+</div>
+
+<%= form_with model: @shipment, local: true, class: "shipment-form" do |f| %>
+  
+  <div class="detail-card" style="margin-bottom: 20px;">
+    <div class="card-body">
+      <div class="form-group">
+        <%= f.label :customer, "顧客名 / 納品先" %>
+        <%= f.text_field :customer, class: "form-control", required: true %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :ship_date, "出荷日" %>
+        <%= f.date_field :ship_date, class: "form-control", required: true %>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <h3><i class="fas fa-boxes-stacked"></i> 出荷アイテムの管理</h3>
+  
+  <div class="form-group" style="margin-bottom: 20px;">
+    <label for="barcode-scanner-input">追加スキャン (在庫ID)</label>
+    <div style="display: flex; gap: 10px;">
+      <input type="text" id="barcode-scanner-input" class="form-control" placeholder="バーコードをスキャン...">
+      <div id="scanner-status" style="font-size: 0.8em; color: #666; align-self: center;"></div>
+    </div>
+  </div>
+
+  <div id="scanned-items-list" class="scanned-items-container">
+    <%# 既存のアイテムを最初から表示しておきます %>
+    <% @shipment.inventories.each do |inventory| %>
+      <div class="scanned-item" id="inventory_item_<%= inventory.id %>">
+        <div class="item-info">
+          <span class="part-badge"><%= inventory.part %></span>
+          <span class="weight-text"><%= inventory.weight %> g</span>
+          <span class="id-text">ID: <%= inventory.id %></span>
+        </div>
+        <%# サーバー送信用の隠しフィールド（既存分） %>
+        <input type="hidden" name="shipment[inventory_ids][]" value="<%= inventory.id %>">
+        <button type="button" class="remove-scanned-item" title="リストから削除">&times;</button>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="form-actions" style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; text-align: right;">
+    <%= f.submit "出荷情報を更新する", class: "btn btn-primary btn-large" %>
+  </div>
+<% end %>
+
+<style>
+  .scanned-items-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    min-height: 100px;
+  }
+  .scanned-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .item-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .part-badge {
+    background: #2c3e50;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.9em;
+  }
+  .id-text {
+    color: #999;
+    font-size: 0.8em;
+  }
+  .remove-scanned-item {
+    background: #ff7675;
+    color: white;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2em;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .remove-scanned-item:hover {
+    background: #d63031;
+  }
+
+  .btn-cancel {
+    background: #ff7675;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+  .btn-cancel:hover {
+    background: #d63031;
+  }
+</style>
+
+<script>
+document.addEventListener('turbo:load', () => {
+  const scannerInput = document.getElementById('barcode-scanner-input');
+  const itemsList = document.getElementById('scanned-items-list');
+  if (!scannerInput || !itemsList) return;
+
+  // Enterキーでの自動送信を防止し、スキャン処理を実行
+  scannerInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); 
+      const id = event.target.value.trim();
+      if (id !== '') fetchInventory(id);
+    }
+  });
+
+  function fetchInventory(id) {
+    // すでにリストにあるかチェック
+    if (document.getElementById(`inventory_item_${id}`)) {
+      showStatus('このアイテムは既に追加されています', 'orange');
+      scannerInput.value = '';
+      return;
+    }
+
+    fetch(`/inventories/find_by_barcode?id=${id}`)
+      .then(response => {
+        if (!response.ok) throw new Error('在庫が見つかりません');
+        return response.json();
+      })
+      .then(data => {
+        addItemToList(data);
+        showStatus(`${data.part} を追加しました`, 'green');
+        scannerInput.value = '';
+      })
+      .catch(err => {
+        showStatus('エラー: 在庫が見つからないか、既に出荷されています', 'red');
+        scannerInput.value = '';
+      });
+  }
+
+  function addItemToList(item) {
+    const div = document.createElement('div');
+    div.className = 'scanned-item';
+    div.id = `inventory_item_${item.id}`;
+    div.innerHTML = `
+      <div class="item-info">
+        <span class="part-badge">${item.part}</span>
+        <span class="weight-text">${item.weight} g</span>
+        <span class="id-text">ID: ${item.id}</span>
+      </div>
+      <input type="hidden" name="shipment[inventory_ids][]" value="${item.id}">
+      <button type="button" class="remove-scanned-item">&times;</button>
+    `;
+    itemsList.appendChild(div);
+  }
+
+  // 削除ボタンの処理（委譲）
+  itemsList.addEventListener('click', (e) => {
+    if (e.target.classList.contains('remove-scanned-item')) {
+      e.target.closest('.scanned-item').remove();
+    }
+  });
+
+  function showStatus(msg, color) {
+    const status = document.getElementById('scanner-status');
+    status.textContent = msg;
+    status.style.color = color;
+    setTimeout(() => { status.textContent = ''; }, 3000);
+  }
+});
+</script>

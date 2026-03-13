@@ -36,7 +36,7 @@ Rails.application.routes.draw do
 
   #在庫情報のルーティング
 
-  resources :inventories, only: [:show, :index] do
+  resources :inventories, only: [:show, :index, :destroy] do
     collection do
       get :find_by_barcode # /inventories/find_by_barcode のようにアクセスできる
     end

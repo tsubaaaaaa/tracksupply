@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_12_221233) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_13_094655) do
   create_table "group_users", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "group_id", null: false
@@ -65,6 +65,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_12_221233) do
     t.integer "group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "expire_date"
     t.index ["group_id"], name: "index_inventories_on_group_id"
     t.index ["individual_id"], name: "index_inventories_on_individual_id"
     t.index ["user_id"], name: "index_inventories_on_user_id"

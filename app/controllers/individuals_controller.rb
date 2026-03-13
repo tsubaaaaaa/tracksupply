@@ -86,6 +86,7 @@ class IndividualsController < ApplicationController
       :age_in_months, # 月齢
       :weight, # 体重
       :disassembling_date, # 解体日
+      :expire_date, # 賞味期限
       :processing_date, # 処理日
       :processing_facility, # 処理施設
       :processor_name, # 処理者名
@@ -95,7 +96,7 @@ class IndividualsController < ApplicationController
       :cooling, # 運搬時冷蔵の有無
       :travel_time, # 運搬時間
       
-      inventories_attributes: [:id, :part, :weight, :_destroy]
+      inventories_attributes: [:id, :part, :weight, :expire_date, :_destroy]
 
     )
   end

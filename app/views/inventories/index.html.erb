@@ -13,11 +13,22 @@
 <% end %>
 
 <div class="inventories-container">
+
+<div class="inventories-card legend-card" style="background-color: #f8f9fa; border: 2px dashed #ccc; margin-bottom: 20px;">
+  <div class="inventories-card-wrapper">
+    <p class="inventories-card-id"><i class="fas fa-hashtag"></i> 在庫ID</p>
+    <p class="inventories-card-line"><i class="fas fa-map-pin"></i> 部位名</p>
+    <p class="inventories-card-line"><i class="fas fa-paw"></i> 重量</p>
+    <p class="inventories-card-line"><i class="fas fa-calendar-alt"></i> 賞味期限</p>
+    <p class="inventories-card-line"><i class="fas fa-inbox"></i> 個体識別番号</p>     
+  </div>
+</div>
+
 <%# inventoriesのうち current_user が作成したものを表示 %>
   <% @inventories.each do |i| %>
     <%# カード全体をリンクにする代わりに、Railsの link_to ヘルパーを使う方法もあります %>
     <%# 例: <%= link_to inventoriesidual_path(i.id), class: "card clickable-card" do %>
-    <div class="inventories-card clickable-card" onclick="location.href='<%= inventories_path(i.id) %>'">
+    <div class="inventories-card clickable-card" onclick="location.href='<%= inventory_path(i.id) %>'">
       <div class="inventories-card-wrapper">
           <p class="inventories-card-id">
             <i class="fas fa-hashtag"></i>
@@ -29,11 +40,11 @@
           </p>
           <p class="inventories-card-line">
             <i class="fas fa-weight-scale"></i>
-            <%= i.weight.present? ? "#{i.weight} g" : "未登録" %> <%# 不正な </span> を削除 %>
+            <%= i.weight.present? ? "#{i.weight.round(0)} g" : "未登録" %> <%# 不正な </span> を削除 %>
           </p>
           <p class="inventories-card-line">
-            <i class="fas fa-boxes-stacked"></i>
-            <%= i.status ? i.status : "未登録" %> <%# 不正な </span> を削除し、日付フォーマットとnilチェックを追加 %>
+            <i class="fas fa-calendar-alt"></i>
+            <%= i.expire_date ? i.expire_date.strftime("%Y-%m-%d") : "未登録" %> <%# 不正な </span> を削除し、日付フォーマットとnilチェックを追加 %>
           </p>
           <p class="inventories-card-line">
             <i class="fas fa-paw"></i>
